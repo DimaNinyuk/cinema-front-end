@@ -2,6 +2,8 @@ import React from "react"
 import "./css/tailwind.css"
 import { AppProvider } from "./contexts/AppContext"
 import AuthContainer from "./components/AuthContainer"
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Index from "./components/main/Index";
 
 function App() {
   return (
@@ -11,7 +13,14 @@ function App() {
           <AuthContainer />
         </AppProvider>
       </div>
+      <Router>
+    <div>
+      <Route path="/index"><Index/></Route>
+      
     </div>
+  </Router>
+    </div>
+    
   )
 }
 
