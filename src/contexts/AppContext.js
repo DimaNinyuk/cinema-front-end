@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import history from '../history';
 import {
   NOT_LOGGED_IN,
   LOG_IN_FORM,
@@ -14,9 +15,10 @@ const AppProvider = (props) => {
   if (process.env.NODE_ENV === "development") {
     hostName = "http://localhost:8000/";
   } else if (process.env.NODE_ENV === "production") {
-    hostName = "https://authapi.bob-humphrey.com/";
+    hostName = "https://we.com/";
   }
 
+  const host=hostName;
   const [authStatus, setAuthStatus] = useState(NOT_LOGGED_IN);
   const [errorMessage, setErrorMessage] = useState("");
   const [userId, setUserId] = useState(0);
@@ -65,19 +67,7 @@ const AppProvider = (props) => {
             (response) => {
               //console.log(response);
               // GET USER
-              axios.get(hostName + "api/user").then(
-                (response) => {
-                  //console.log(response);
-                  setUserId(response.data.id);
-                  setUserName(response.data.name);
-                  setErrorMessage("");
-                  setAuthStatus(LOGGED_IN);
-                },
-                // GET USER ERROR
-                (error) => {
-                  setErrorMessage("Could not complete the sign up");
-                }
-              );
+              history.push("/profile");
             },
             // SIGNUP ERROR
             (error) => {
@@ -105,6 +95,7 @@ const AppProvider = (props) => {
   const login = () => {
     axios.defaults.withCredentials = true;
     // CSRF COOKIE
+  
     axios.get(hostName + "sanctum/csrf-cookie").then(
       (response) => {
         //console.log(response);
@@ -118,19 +109,7 @@ const AppProvider = (props) => {
             (response) => {
               //console.log(response);
               // GET USER
-              axios.get(hostName + "api/user").then(
-                (response) => {
-                  //console.log(response);
-                  setUserId(response.data.id);
-                  setUserName(response.data.name);
-                  setErrorMessage("");
-                  setAuthStatus(LOGGED_IN);
-                },
-                // GET USER ERROR
-                (error) => {
-                  setErrorMessage("Could not complete the login");
-                }
-              );
+              history.push("/profile");
             },
             // LOGIN ERROR
             (error) => {
@@ -147,22 +126,53 @@ const AppProvider = (props) => {
         setErrorMessage("Could not complete the login");
       }
     );
+    
   };
 
-  function logout() {
+  function getprofile() {
     axios.defaults.withCredentials = true;
-    axios.get(hostName + "api/logout");
+    axios.get('http://localhost:8000/sanctum/csrf-cookie').then(response => {
+        // Login...
+    axios.get("http://localhost:8000/api/user").then(
+      (response) => {
+        //console.log(response);
+        // LOGIN
+                  console.log(response);
+                  setUserId(response.data.id);
+                  setUserName(response.data.name);
+                  setErrorMessage("");
+                  setAuthStatus(LOGGED_IN);
+                },
+                // GET USER ERROR
+                (error) => {
+                 console.log(error);
+                 history.push("/auth");
+                }
+    );
+    console.log("yes");
+              });
+  }
+  function logout() {
+    out();
     setUserId(0);
     setUserName("");
     setUserNameInput("");
     setUserEmail("");
     setUserPassword("");
     setAuthStatus(NOT_LOGGED_IN);
+    history.push("/auth");
+  }
+
+  function out(){
+    axios.defaults.withCredentials = true;
+    return axios.get(hostName + "api/logout");
+    
   }
 
   return (
     <AppContext.Provider
       value={{
+        host,
         authStatus,
         changeAuthStatusLogin,
         changeAuthStatusSignup,
@@ -177,6 +187,7 @@ const AppProvider = (props) => {
         signup,
         login,
         logout,
+        getprofile,
         errorMessage,
       }}
     >
