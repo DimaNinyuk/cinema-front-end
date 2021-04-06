@@ -13,6 +13,7 @@ import LoginPage from "views/LoginPage/LoginPage.js";
 import Auth from "views/Auth/Auth.js";
 import LoginGoogle from "components/Auth/LoginGoogle.js"
 import Profile from "views/Profile/Profile"
+import Homepage from "views/Homepage/Homepage.js"
 
 
 
@@ -22,10 +23,11 @@ ReactDOM.render(
       <Route path="/landing-page" component={LandingPage} />
       <Route path="/profile-page" component={ProfilePage} />
       <Route path="/login-page" component={LoginPage} />
+      <Route path="/components" component={Components} />
       <Route path="/auth" component={Auth} />
       <Route path="/auth-google" component={LoginGoogle} />
       <Route path="/profile" component={Profile} />
-      <Route path="/" component={Components} />
+      <Route path="/" component={Homepage} />
     </Switch>
   </Router>,
   document.getElementById("root")

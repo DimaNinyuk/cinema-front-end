@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import history from '../history';
+import useLocalStorage from "functions/localstorage/useLocalStorage";
 import {
   NOT_LOGGED_IN,
   LOG_IN_FORM,
@@ -26,6 +27,7 @@ const AppProvider = (props) => {
   const [userNameInput, setUserNameInput] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [cart, setCart] = useLocalStorage("cart", []);
 
   function changeAuthStatusLogin() {
     setAuthStatus(LOG_IN_FORM);
@@ -189,6 +191,8 @@ const AppProvider = (props) => {
         logout,
         getprofile,
         errorMessage,
+        cart,
+        setCart,
       }}
     >
       {props.children}
