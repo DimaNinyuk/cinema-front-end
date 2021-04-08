@@ -30,14 +30,26 @@ import styles from "assets/jss/material-kit-react/views/componentsSections/navba
 const useStyles = makeStyles(styles);
 export default function FilmFilters() {
     const classes = useStyles();
+
     const [allgenre, setgenre] = useState([]);
+    const [pages, setpages] = useState([]);
+    const [page, setpage] = useState([]);
+    const [onpage, setonpage] = useState(1);
     useEffect(() => {
         axios
             .get("http://localhost:8000/api/filmsbygenre")
             .then(
                 (response) => {
-                    console.log(response);
+                   // console.log(response);
                     setgenre(response.data);
+                    const ps = [];
+                    const p = [];
+                    response.data.map(g=>{
+                    ps.push(Math.ceil(g.genrefilms.length/onpage))
+                    p.push(1)
+                });
+                setpages(ps);
+                setpage(p);
                 },
             );
     }, []);
@@ -60,11 +72,13 @@ export default function FilmFilters() {
                             <CustomTabs
                                 headerColor="primary"
                                 tabs={
-                                    allgenre.map(genre=>({
+                                    allgenre.map((genre,i)=>({
                                         tabName: genre.name,
                                         tabContent: <div>
                                                <GridContainer style={{padding: "25px"}}>
-                                                    {genre.genrefilms.map(genrefilm => {
+                                                    {genre.genrefilms.slice((page[i]*onpage)-onpage,
+                                                     page[i]*onpage>genre.genrefilms.lenght? genre.genrefilms.lenght:page[i]*onpage)
+                                                    .map(genrefilm => {
                                                     return (
                                                         /* When using list you need to specify a key
                                                         * attribute that is unique for each list item
@@ -78,19 +92,18 @@ export default function FilmFilters() {
                                                 </GridContainer> 
                                                 <div style={{textAlign:"center"}}>
                                                 <Paginations
-                                                    pages={
-                                                        [
-                                                        { text: "PREV" },
-                                                        { text: 1 },
-                                                        { text: 2 },
-                                                        { active: true, text: 3 },
-                                                        { text: 4 },
-                                                        { text: 5 },
-                                                        { text: "NEXT" },
-                                                    ]
-                                                }
-                                                onChange={console.log("hhhhhh")}
-                                                    
+                                                    pages=
+                                                    {
+                                                        Array.from(Array(pages[i]), (e, j) => ({
+                                                            text:(j+1), 
+                                                            active:(page[i]===j+1),
+                                                            onClick: ()=>{
+                                                                let newArr = [...page];
+                                                                newArr[i] = j+1;
+                                                                setpage(newArr);}
+                                                        })
+                                                        )
+                                                    }
                                                     color="info"
                                                     />
                                                 </div>
