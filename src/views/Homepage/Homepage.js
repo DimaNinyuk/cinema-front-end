@@ -15,6 +15,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
 import Parallax from "components/Parallax/Parallax.js";
 import AllFilms from "components/Films/AllFilms.js";
+import FilmFilters from "components/Films/FilmFilters.js";
 import FilmTopNews from "components/Films/FilmTopNews";
 
 import styles from "assets/jss/material-kit-react/views/components.js";
@@ -62,11 +63,15 @@ export default function Homepage(props) {
     </GridContainer>
     </div>
     <div className={classNames(classes.main, classes.mainRaised)} style={{marginTop:"50px"}}>
-    
          <FilmTopNews />
-     
     </div>
-
+    <div className={classNames(classes.main, classes.mainRaised)} style={{marginTop:"50px"}}>
+        <GridContainer >
+         <GridItem>
+            <FilmFilters/>
+        </GridItem>
+    </GridContainer>
+    </div>
       <Footer />
     </div>
   );
