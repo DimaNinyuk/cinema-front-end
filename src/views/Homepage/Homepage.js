@@ -62,12 +62,14 @@ export default function Homepage(props) {
         </GridItem>
     </GridContainer>
     </div>
-    <div className={classNames(classes.main, classes.mainRaised)} style={{marginTop:"50px"}}>
+    <div className={classNames(classes.mainRaised)} style={{marginTop:"50px"}}>
          <FilmTopNews />
     </div>
-    <div className={classNames(classes.main, classes.mainRaised)} style={{marginTop:"50px"}}>
+    <div className={classNames(classes.mainRaised)} style={{marginTop:"50px"}}>
+      
         <GridContainer >
          <GridItem>
+
             <FilmFilters/>
         </GridItem>
     </GridContainer>
