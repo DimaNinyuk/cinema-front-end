@@ -59,9 +59,44 @@ export default function FilmFilters() {
                         <GridItem xs={12} sm={12} md={12}>
                             <CustomTabs
                                 headerColor="primary"
-                                tabs={[
-                                    allgenre.map(genre=>({tabName: "Profile"}))
-                                ]}
+                                tabs={
+                                    allgenre.map(genre=>({
+                                        tabName: genre.name,
+                                        tabContent: <div>
+                                               <GridContainer style={{padding: "25px"}}>
+                                                    {genre.genrefilms.map(genrefilm => {
+                                                    return (
+                                                        /* When using list you need to specify a key
+                                                        * attribute that is unique for each list item
+                                                        */
+                                                        <GridItem item xs={12} sm={6} md={4} lg={3} key={genrefilm.film.id} >
+                                                            {genrefilm.film.name } 
+                                                            <FilmCard film={genrefilm.film}/> 
+                                                        </GridItem>
+                                                        
+                                                    );})}
+                                                </GridContainer> 
+                                                <div style={{textAlign:"center"}}>
+                                                <Paginations
+                                                    pages={
+                                                        [
+                                                        { text: "PREV" },
+                                                        { text: 1 },
+                                                        { text: 2 },
+                                                        { active: true, text: 3 },
+                                                        { text: 4 },
+                                                        { text: 5 },
+                                                        { text: "NEXT" },
+                                                    ]
+                                                }
+                                                onChange={console.log("hhhhhh")}
+                                                    
+                                                    color="info"
+                                                    />
+                                                </div>
+                                        </div>
+                                    }))
+                                }
                             />
                         </GridItem>
                     </GridContainer>
