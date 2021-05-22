@@ -2,6 +2,7 @@
 import React from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 // react components for routing our app without refresh
 import { Link } from "react-router-dom";
 
@@ -12,7 +13,7 @@ import ListItem from "@material-ui/core/ListItem";
 import Tooltip from "@material-ui/core/Tooltip";
 
 // @material-ui/icons
-import { Apps, CloudDownload } from "@material-ui/icons";
+import { ShoppingCart} from "@material-ui/icons";
 
 // core components
 import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
@@ -29,12 +30,12 @@ export default function HeaderLinks(props) {
       <ListItem className={classes.listItem}>
         <CustomDropdown
           noLiPadding
-          buttonText="Components"
+          buttonText="Cart"
           buttonProps={{
             className: classes.navLink,
             color: "transparent"
           }}
-          buttonIcon={Apps}
+          buttonIcon={ShoppingCart}
           dropdownList={[
             <Link to="/" className={classes.dropdownLink}>
               All components
@@ -49,14 +50,15 @@ export default function HeaderLinks(props) {
           ]}
         />
       </ListItem>
+     
       <ListItem className={classes.listItem}>
         <Button
-          href="https://www.creative-tim.com/product/material-kit-react?ref=mkr-navbar"
+          href="http://localhost:3000/profile"
           color="transparent"
-          target="_blank"
           className={classes.navLink}
         >
-          <CloudDownload className={classes.icons} /> Download
+
+          <AccountCircleIcon className={classes.icons} /> 
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>

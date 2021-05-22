@@ -17,6 +17,8 @@ import Footer from "components/Footer/Footer.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -79,7 +81,18 @@ useEffect(() => {
       <Header
       absolute
       color="transparent"
-      brand="Material Kit React"
+      leftLinks={<List>
+        <ListItem className={classes.listItem}>
+     <Button
+       href="http://localhost:3000"
+       color="transparent"
+       style={{ fontSize: 40 }}
+       className={classes.navLink}
+     >
+      CinemaX
+     </Button>
+   </ListItem>
+     </List>}
       rightLinks={<HeaderLinks />}
       {...rest}
     />

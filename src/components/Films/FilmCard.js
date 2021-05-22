@@ -28,6 +28,7 @@ export default function FilmCard({film}) {
                 />
                 <CardBody>
                 <h4 className={classes.cardTitle}>name = {film.name}</h4>
+                <h4 className={classes.cardTitle}>date = {film.release_date}</h4>
                 <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 <FilmCartButton film={film}/>
                 </CardBody>

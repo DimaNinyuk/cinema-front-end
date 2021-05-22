@@ -30,7 +30,10 @@ import styles from "assets/jss/material-kit-react/views/componentsSections/navba
 const useStyles = makeStyles(styles);
 export default function FilmFilters() {
     const classes = useStyles();
-
+    
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    var formatter = new Intl.DateTimeFormat('en', options);
+    const [selecteddate, setselecteddate] = useState(formatter.format(new Date()));
     const [allgenre, setgenre] = useState([]);
     const [pages, setpages] = useState([]);
     const [page, setpage] = useState([]);
@@ -58,10 +61,20 @@ export default function FilmFilters() {
         <div>
             <AppProvider>
                 <GridContainer justify="center">
-                    <GridItem xs={12} sm={12} md={2}>
+                    <GridItem xs={12} sm={12} md={3}>
                         <FormControl >
                             <Datetime 
-                                inputProps={{ placeholder: "Select Date ..." }}
+                                inputProps={{ placeholder: "Select Date ...", value:selecteddate,
+                                }}
+                                onChange={(date)=>{setselecteddate(formatter.format(date));
+                                    var array = allgenre.map(genre=> {
+                                        genre.genrefilms.filter(function(genrefilm){
+                                                return genrefilm.film.release_date == selecteddate
+                                            }) 
+                                    })
+                                    //setgenre(array);
+                                    console.log(allgenre)
+                                }}
                             />  
                         </FormControl>
                     </GridItem>

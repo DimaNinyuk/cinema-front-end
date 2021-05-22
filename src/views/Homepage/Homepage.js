@@ -12,6 +12,8 @@ import HeaderLinks from "components/Header/HeaderLinks.js";
 import Footer from "components/Footer/Footer.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 import Button from "components/CustomButtons/Button.js";
 import Parallax from "components/Parallax/Parallax.js";
 import AllFilms from "components/Films/AllFilms.js";
@@ -31,8 +33,19 @@ export default function Homepage(props) {
   return (
     <div>
       <Header
-        brand="Material Kit React"
         rightLinks={<HeaderLinks />}
+        leftLinks={<List>
+           <ListItem className={classes.listItem}>
+        <Button
+          href="http://localhost:3000"
+          color="transparent"
+          style={{ fontSize: 40 }}
+          className={classes.navLink}
+        >
+         CinemaX
+        </Button>
+      </ListItem>
+        </List>}
         fixed
         color="transparent"
         changeColorOnScroll={{
@@ -46,9 +59,9 @@ export default function Homepage(props) {
           <GridContainer>
             <GridItem>
               <div className={classes.brand}>
-                <h1 className={classes.title}>Material Kit React.</h1>
+                <h1 className={classes.title}>CinemaX</h1>
                 <h3 className={classes.subtitle}>
-                  A Badass Material-UI Kit based on Material Design.
+                  Web-Application for booking and buying tickets in our cinema.
                 </h3>
               </div>
             </GridItem>
