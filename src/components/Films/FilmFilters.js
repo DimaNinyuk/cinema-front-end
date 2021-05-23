@@ -31,19 +31,28 @@ const useStyles = makeStyles(styles);
 export default function FilmFilters() {
     const classes = useStyles();
     
-    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    var formatter = new Intl.DateTimeFormat('en', options);
-    const [selecteddate, setselecteddate] = useState(formatter.format(new Date()));
-    const [allgenre, setgenre] = useState([]);
-    const [pages, setpages] = useState([]);
-    const [page, setpage] = useState([]);
-    const [onpage, setonpage] = useState(1);
-    useEffect(() => {
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+    
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+    
+        return [year, month, day].join('-');
+    }
+
+    function getdate(date) {
+        var d = formatDate(date);
         axios
-            .get("http://localhost:8000/api/filmsbygenre")
+            .get("http://localhost:8000/api/filmsbygenre/"+d)
             .then(
                 (response) => {
                    // console.log(response);
+                   setgenrefilms(response.data);
                     setgenre(response.data);
                     const ps = [];
                     const p = [];
@@ -55,6 +64,19 @@ export default function FilmFilters() {
                 setpage(p);
                 },
             );
+    }
+
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    var formatter = new Intl.DateTimeFormat('en', options);
+    const [selecteddate, setselecteddate] = useState(formatter.format(new Date()));
+    const [allgenre, setgenre] = useState([]);
+    const [allgenrefilms, setgenrefilms] = useState([]);
+    const [pages, setpages] = useState([]);
+    const [page, setpage] = useState([]);
+    const [onpage, setonpage] = useState(1);
+    useEffect(() => {
+        var date=formatDate(new Date());
+        getdate(date);
     }, []);
 
     return (
@@ -67,13 +89,8 @@ export default function FilmFilters() {
                                 inputProps={{ placeholder: "Select Date ...", value:selecteddate,
                                 }}
                                 onChange={(date)=>{setselecteddate(formatter.format(date));
-                                    var array = allgenre.map(genre=> {
-                                        genre.genrefilms.filter(function(genrefilm){
-                                                return genrefilm.film.release_date == selecteddate
-                                            }) 
-                                    })
-                                    //setgenre(array);
-                                    console.log(allgenre)
+                                    var d= new Date(date);
+                                    getdate(d);
                                 }}
                             />  
                         </FormControl>
@@ -100,7 +117,6 @@ export default function FilmFilters() {
                                                             {genrefilm.film.name } 
                                                             <FilmCard film={genrefilm.film}/> 
                                                         </GridItem>
-                                                        
                                                     );})}
                                                 </GridContainer> 
                                                 <div style={{textAlign:"center"}}>
@@ -127,10 +143,8 @@ export default function FilmFilters() {
                         </GridItem>
                     </GridContainer>
                 </div>
-
             </AppProvider>
         </div>
-
     );
 
 };

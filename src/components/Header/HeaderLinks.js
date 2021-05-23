@@ -1,5 +1,7 @@
 /*eslint-disable*/
-import React from "react";
+import React, {useContext} from "react";
+import { AppContext } from "contexts/AppContext";
+
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -25,6 +27,11 @@ const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
   const classes = useStyles();
+  const appContext = useContext(AppContext);
+  const {
+    cart,
+  } = appContext;
+
   return (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
@@ -37,16 +44,11 @@ export default function HeaderLinks(props) {
           }}
           buttonIcon={ShoppingCart}
           dropdownList={[
-            <Link to="/" className={classes.dropdownLink}>
-              All components
-            </Link>,
-            <a
-              href="https://creativetimofficial.github.io/material-kit-react/#/documentation?ref=mkr-navbar"
-              target="_blank"
-              className={classes.dropdownLink}
-            >
-              Documentation
-            </a>
+            cart.map(c=>{
+              <Link to="/" className={classes.dropdownLink}>
+             c.name
+            </Link>
+              })       
           ]}
         />
       </ListItem>

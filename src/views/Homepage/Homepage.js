@@ -1,4 +1,5 @@
 import React from "react";
+import { AppProvider } from "contexts/AppContext"
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // react components for routing our app without refresh
@@ -19,19 +20,15 @@ import Parallax from "components/Parallax/Parallax.js";
 import AllFilms from "components/Films/AllFilms.js";
 import FilmFilters from "components/Films/FilmFilters.js";
 import FilmTopNews from "components/Films/FilmTopNews";
-
 import styles from "assets/jss/material-kit-react/views/components.js";
 
-
 const useStyles = makeStyles(styles);
-
-
-
 export default function Homepage(props) {
   const classes = useStyles();
   const { ...rest } = props;
   return (
     <div>
+      <AppProvider>
       <Header
         rightLinks={<HeaderLinks />}
         leftLinks={<List>
@@ -88,6 +85,7 @@ export default function Homepage(props) {
     </GridContainer>
     </div>
       <Footer />
+      </AppProvider>
     </div>
   );
 }

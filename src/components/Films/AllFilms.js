@@ -3,7 +3,7 @@ import axios from "axios";
 import FilmCard from "./FilmCard";
 import GridContainer from  "components/Grid/GridContainer";
 import GridItem from  "components/Grid/GridItem";
-import { AppProvider } from "contexts/AppContext"
+
 
 export default function AllFilms () {
 
@@ -21,7 +21,6 @@ export default function AllFilms () {
   
     return (
       <div>
-          <AppProvider>
                 <h3>Фильмы в прокате</h3>
                 <GridContainer style={{padding: "25px"}}>
                 {allfilms.map(film => {
@@ -36,7 +35,6 @@ export default function AllFilms () {
                     
                 );})}
                 </GridContainer> 
-          </AppProvider>
       </div>
      
     );
