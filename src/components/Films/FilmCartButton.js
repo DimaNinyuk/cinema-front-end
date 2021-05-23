@@ -15,7 +15,10 @@ export default function FilmCartButton({film}) {
     }
     
     function press2() {
-        console.log(cart);
+      cart.map(c=>{
+        console.log(c.name);
+      })
+        
     }
     return(
         <div>
