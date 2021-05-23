@@ -43,10 +43,7 @@ export default function HeaderLinks(props) {
             color: "transparent"
           }}
           buttonIcon={ShoppingCart}
-          dropdownList=
-          {
-            
-          }
+          
         />
       </ListItem>
      
