@@ -14,6 +14,7 @@ import LoginPage from "views/LoginPage/LoginPage.js";
 import Auth from "views/Auth/Auth.js";
 import LoginGoogle from "components/Auth/LoginGoogle.js"
 import Profile from "views/Profile/Profile"
+import AdminProfile from "views/AdminProfile/AdminProfile.js"
 import Homepage from "views/Homepage/Homepage.js"
 
 
@@ -28,6 +29,7 @@ ReactDOM.render(
       <Route path="/auth" component={Auth} />
       <Route path="/auth-google" component={LoginGoogle} />
       <Route path="/profile" component={Profile} />
+      <Route path="/admin-profile" component={AdminProfile} />
       <Route path="/" component={Homepage} />
     </Switch>
   </Router>,
