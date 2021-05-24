@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import axios from "axios";
 import { escapeLeadingUnderscores } from "typescript";
 
-function useStateFromProp(initialValue) {
-    const [value, setValue] = useState(initialValue);
-
-    useEffect(() => setValue(initialValue), [initialValue]);
-    return [value, setValue];
-}
 export default function Film({ film, onUpdate, onDelete, genres }) {
 
-    const [currentFilm, setcurrentFilm] = useStateFromProp(film);
+    const [currentFilm, setcurrentFilm] = useState({...film});
+    
+
+    useEffect(() => {
+        setcurrentFilm(film);
+    }, [film])
     function handleSubmit(e) {
         e.preventDefault();
         // console.log(newfilm);
@@ -24,21 +23,23 @@ export default function Film({ film, onUpdate, onDelete, genres }) {
         var state = Object.assign({}, currentFilm);
         state[key] = e.target.value;
         setcurrentFilm(state);
-        //console.log(currentFilm);
+        console.log(currentFilm);
     };
     function handleInputGenre(e) {
       //  e.preventDefault();
         var state = Object.assign({}, currentFilm);
-        var value = e.target.value
+        var value = Number(e.target.value)
         var genre={};
             genre.genre_id=value;
-            if(state['genrefilms'].filter(g => g.genre_id.toString() === value.toString()).length === 0)
-            state['genrefilms'].push(genre);
+        var key= 'genrefilms';
+            if(state[key].filter(g => g.genre_id=== value).length === 0)
+            state[key].push(genre);
             else 
-            state['genrefilms'].splice(state['genrefilms'].map(function(g) { return g.genre_id.toString(); }).indexOf(value.toString()), 1);
+            state[key].splice(state[key].map(function(g) { return g.genre_id; }).indexOf(value), 1);
        // console.log(genrefilms);
        // setCart(cart => [...cart, film]);
-        setcurrentFilm(state);
+      setcurrentFilm(state);
+        
         console.log(state['genrefilms']);
     }
 
@@ -46,80 +47,34 @@ export default function Film({ film, onUpdate, onDelete, genres }) {
     if (!film) {
         return (<div>  Film Doesnt exist </div>);
     }
-    else if (currentFilm == null) {
-        return (
-            <div>
-                <form>
-                    <label> Name:
-                        <input type="text" value={film.name} onChange={(e) => handleInput('name', e)} />
-                    </label>
-                    <label> Description:
-                    <input type="text" value={film.description} onChange={(e) => handleInput('description', e)} />
-                    </label>
-
-                    <input type="text" value={film.id} onChange={(e) => handleInput('id', e)} />
-
-                    {genres.map((genre,i) => {
-                        if(film.genrefilms.filter(g => g.genre_id.toString() === genre.id.toString()).length > 0)
-                            return (
-                                <div>
-                                <input  onChange={(e) => handleInputGenre(e)} checked key={i} type="checkbox" value={genre.id}/> 
-                                {genre.name}
-                                </div>
-                            );
-                            else 
-                            return (
-                                <div>
-                                <input  onChange={(e) => handleInputGenre(e)} key={i} type="checkbox" value={genre.id}/> 
-                                {genre.name}
-                                </div>
-                            );
-                        }
-                        )}
-                    <button onClick={(e) => handleSubmit(e)}>Update</button>
-                    <button onClick={(e) => handleDelete(e)}>Delete</button>
-                </form>
-            </div>
-        )
-    }
     else {
-        return (
-
-            <div>
-                <form>
+        return currentFilm ? 
+         (
+            <div >
                     <label> Name:
                         <input type="text" value={currentFilm.name} onChange={(e) => handleInput('name', e)} />
                     </label>
                     <label> Description:
-                    <input type="text" value={currentFilm.description} onChange={(e) => handleInput('description', e)} />
+                    <input type="text" value={currentFilm.description!=null?currentFilm.description:""} onChange={(e) => handleInput('description', e)} />
                     </label>
-                    <input type="text" value={currentFilm.id} onChange={(e) => handleInput('id', e)} />
-                    <div>
-                    {genres.map((genre,i) => {
-                        if(currentFilm.genrefilms.filter(g => g.genre_id.toString() === genre.id.toString()).length > 0)
+                    <input type="hidden" value={currentFilm.id}  />
+                        {(genres.map((genre,i) => {
                             return (
-                                <div>
-                                <input  onChange={(e) => handleInputGenre(e)} checked key={i} type="checkbox" value={genre.id} /> 
+                                <div key={i}> 
+                                <input  onChange={(e) => handleInputGenre(e)} 
+                                checked={currentFilm.genrefilms.filter(g => g.genre_id === genre.id).length > 0?"checked":""} type="checkbox" 
+                                value={genre.id} /> 
                                 {genre.name}
                                 </div>
                             );
-                            else 
-                            return (
-                                <div>
-                                <input  onChange={(e) => handleInputGenre(e)} key={i} type="checkbox" value={genre.id}/> 
-                                {genre.name}
-                                </div>
-                            );
-                        }
-                        )}
+                        }))}
                         
-                    </div>
                     <button onClick={(e) => handleSubmit(e)}>Update</button>
                     <button onClick={(e) => handleDelete(e)}>Delete</button>
-                </form>
+               
 
             </div>
-
-        );
+         )
+         : (<div key={film.name}><p>Loading...</p></div>);
     }
 };

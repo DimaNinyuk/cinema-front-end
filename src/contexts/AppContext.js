@@ -168,7 +168,7 @@ const AppProvider = (props) => {
   function out(){
     axios.defaults.withCredentials = true;
     return axios.get(hostName + "api/logout");
-    
+
   }
 
   return (

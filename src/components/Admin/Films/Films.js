@@ -26,7 +26,15 @@ export default function Films() {
     }, []);
 
     function handleClick(film) {
-        setcurrentFilm(film);
+        var state = Object.assign({}, film);
+        axios
+        .get("http://localhost:8000/api/admin-genres/"+film.id)
+        .then(
+            (response) => {
+                state['genrefilms'] = response.data;
+            },
+        );
+        setcurrentFilm(state);
     };
     function handleAddFilm(film) {
        // console.log(film);

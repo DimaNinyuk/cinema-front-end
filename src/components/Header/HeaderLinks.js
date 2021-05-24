@@ -43,7 +43,13 @@ export default function HeaderLinks(props) {
             color: "transparent"
           }}
           buttonIcon={ShoppingCart}
-          
+          dropdownList=
+          {
+            cart.map(c=>
+              {
+                return c.name;
+              })
+          }
         />
       </ListItem>
      
