@@ -6,6 +6,15 @@ export default function Films() {
     const [allfilms, setallfilms] = useState([]);
     const [currentFilm, setcurrentFilm] = useState(null);
     const [genres, setGenres] = useState();
+    function getFilmDetail(film){
+        axios
+        .get("http://localhost:8000/api/admin-films/"+film.id)
+        .then(
+            (response) => {
+              setcurrentFilm(response.data);
+            },
+        );
+    }
     useEffect(() => {
         axios
             .get("http://localhost:8000/api/admin-films")
@@ -26,15 +35,8 @@ export default function Films() {
     }, []);
 
     function handleClick(film) {
-        var state = Object.assign({}, film);
-        axios
-        .get("http://localhost:8000/api/admin-genres/"+film.id)
-        .then(
-            (response) => {
-                state['genrefilms'] = response.data;
-            },
-        );
-        setcurrentFilm(state);
+        
+        getFilmDetail(film);
     };
     function handleAddFilm(film) {
        // console.log(film);
@@ -44,9 +46,9 @@ export default function Films() {
                 axios.post("http://localhost:8000/api/admin-films", film).then(
                     (response)=>
                 {
-                    console.log(response);
+                    //console.log(response);
                     setallfilms(allfilms => [...allfilms, response.data]);
-                    setcurrentFilm(film);
+                    getFilmDetail(response.data);
                 },
                 )
             })
@@ -60,13 +62,25 @@ export default function Films() {
                      (response)=>
                  {
                     var array = allfilms.filter(function(item) {
-                        return item !== currentFilm
+                        return item.id !== film.id
                     })
                     setallfilms(allfilms => [...array, response.data]);
-                    setcurrentFilm(film);
+                    getFilmDetail(film);
                  },
+                 ).then(
+                    (response)=>
+                    {
+                        axios.post("http://localhost:8000/api/admin-genrefilm",currentFilm.genrefilms).then(
+                            (response)=>
+                        {
+                            //console.log(response);
+                            getFilmDetail(film);
+                        })
+                    }, 
                  )
              })
+
+            
      }
      function handleDeleteFilm(film) {
         // console.log(film);
@@ -77,7 +91,7 @@ export default function Films() {
                      (response)=>
                  {
                     var array = allfilms.filter(function(item) {
-                        return item !== currentFilm
+                        return item.id !== currentFilm.id
                     })
                     setallfilms(array);
                     setcurrentFilm(null);
@@ -91,12 +105,10 @@ export default function Films() {
                 <h3>All Films</h3>
                 <ul>
                     {
-                        
-                        allfilms.map(film => {
+                        allfilms.map((film,i) => {
                             return (
-
                                 <li onClick={() => handleClick(film)}
-                                    key={film.id} >
+                                    key={i} >
                                     { film.name}
                                 </li>
                             );

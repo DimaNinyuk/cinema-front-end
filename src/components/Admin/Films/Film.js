@@ -5,8 +5,6 @@ import { escapeLeadingUnderscores } from "typescript";
 export default function Film({ film, onUpdate, onDelete, genres }) {
 
     const [currentFilm, setcurrentFilm] = useState({...film});
-    
-
     useEffect(() => {
         setcurrentFilm(film);
     }, [film])
@@ -30,6 +28,7 @@ export default function Film({ film, onUpdate, onDelete, genres }) {
         var state = Object.assign({}, currentFilm);
         var value = Number(e.target.value)
         var genre={};
+            genre.film_id=Number(film.id);
             genre.genre_id=value;
         var key= 'genrefilms';
             if(state[key].filter(g => g.genre_id=== value).length === 0)
@@ -42,8 +41,6 @@ export default function Film({ film, onUpdate, onDelete, genres }) {
         
         console.log(state['genrefilms']);
     }
-
-
     if (!film) {
         return (<div>  Film Doesnt exist </div>);
     }
@@ -62,17 +59,14 @@ export default function Film({ film, onUpdate, onDelete, genres }) {
                             return (
                                 <div key={i}> 
                                 <input  onChange={(e) => handleInputGenre(e)} 
-                                checked={currentFilm.genrefilms.filter(g => g.genre_id === genre.id).length > 0?"checked":""} type="checkbox" 
+                                checked={currentFilm.genrefilms?.filter(g => g.genre_id === genre.id).length > 0?"checked":""} type="checkbox" 
                                 value={genre.id} /> 
                                 {genre.name}
                                 </div>
                             );
                         }))}
-                        
                     <button onClick={(e) => handleSubmit(e)}>Update</button>
                     <button onClick={(e) => handleDelete(e)}>Delete</button>
-               
-
             </div>
          )
          : (<div key={film.name}><p>Loading...</p></div>);
