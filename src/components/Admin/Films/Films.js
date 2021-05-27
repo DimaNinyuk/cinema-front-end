@@ -6,6 +6,10 @@ export default function Films() {
     const [allfilms, setallfilms] = useState([]);
     const [currentFilm, setcurrentFilm] = useState(null);
     const [genres, setGenres] = useState();
+    const [allactors, setActors] = useState();
+    const [allproducers, setProducers] = useState();
+    const [allcompanies, setCompanies] = useState();
+    //метод, который заполняет данными переменную выбранного фильма (перересовка выбраного фильма)
     function getFilmDetail(film){
         axios
         .get("http://localhost:8000/api/admin-films/"+film.id)
@@ -15,12 +19,12 @@ export default function Films() {
             },
         );
     }
+    //метод, который вызывается первый при загрузки страницы, здесь заполняем фильмами страницу, а также список жанров
     useEffect(() => {
         axios
             .get("http://localhost:8000/api/admin-films")
             .then(
                 (response) => {
-                  //  console.log(response);
                     setallfilms(response.data);
                 },
             );
@@ -28,33 +32,52 @@ export default function Films() {
             .get("http://localhost:8000/api/admin-genres")
             .then(
                 (response) => {
-                    //  console.log(response);
                     setGenres(response.data);
                 },
             );
+            axios
+            .get("http://localhost:8000/api/admin-actors")
+            .then(
+                (response) => {
+                    setActors(response.data);
+                },
+            );
+            axios
+            .get("http://localhost:8000/api/admin-producers")
+            .then(
+                (response) => {
+                    setProducers(response.data);
+                },
+            );
+            axios
+            .get("http://localhost:8000/api/admin-companies")
+            .then(
+                (response) => {
+                    setCompanies(response.data);
+                },
+            );
     }, []);
-
+    //метод отвечает за обработку клика выбора фильма
     function handleClick(film) {
         
         getFilmDetail(film);
     };
+    //медот отвечает за добавление фильма
     function handleAddFilm(film) {
-       // console.log(film);
         axios.defaults.withCredentials = true;
         axios.get("http://localhost:8000/" + "sanctum/csrf-cookie").then(
             (response) => {
                 axios.post("http://localhost:8000/api/admin-films", film).then(
                     (response)=>
                 {
-                    //console.log(response);
                     setallfilms(allfilms => [...allfilms, response.data]);
                     getFilmDetail(response.data);
                 },
                 )
             })
     }
+    //метод отвечает за обновление фильма
     function handleUpdateFilm(film) {
-        // console.log(film);
          axios.defaults.withCredentials = true;
          axios.get("http://localhost:8000/" + "sanctum/csrf-cookie").then(
              (response) => {
@@ -65,25 +88,40 @@ export default function Films() {
                         return item.id !== film.id
                     })
                     setallfilms(allfilms => [...array, response.data]);
-                    getFilmDetail(film);
                  },
                  ).then(
                     (response)=>
                     {
-                        axios.post("http://localhost:8000/api/admin-genrefilm",currentFilm.genrefilms).then(
+                        axios.post("http://localhost:8000/api/admin-genrefilm",film.genrefilms).then(
                             (response)=>
                         {
-                            //console.log(response);
-                            getFilmDetail(film);
                         })
                     }, 
-                 )
+                 ).then(
+                    (response)=>
+                    {
+                        axios.post("http://localhost:8000/api/admin-actorfilm",film.actorfilms).then(
+                            (response)=>
+                        {
+                            
+                        })
+                    }, 
+                    ).then(
+                        (response)=>
+                        {
+                            axios.post("http://localhost:8000/api/admin-producerfilm",film.producerfilms).then(
+                                (response)=>
+                            {
+                                getFilmDetail(film);
+                            })
+                        }, 
+                        )
              })
 
             
      }
+     //мотод отвечает за удаление фильма
      function handleDeleteFilm(film) {
-        // console.log(film);
          axios.defaults.withCredentials = true;
          axios.get("http://localhost:8000/" + "sanctum/csrf-cookie").then(
              (response) => {
@@ -99,12 +137,13 @@ export default function Films() {
                  )
              })
      }
-        
+        //рендер страницы
         return (
             <div>
                 <h3>All Films</h3>
                 <ul>
                     {
+                        //вывод списка фильмов
                         allfilms.map((film,i) => {
                             return (
                                 <li onClick={() => handleClick(film)}
@@ -117,7 +156,11 @@ export default function Films() {
                         )
                     }
                 </ul>
-                <Film film={currentFilm} onUpdate={handleUpdateFilm} onDelete={handleDeleteFilm} genres={genres} />
+                {//вывод выбранного фильма
+                }
+                <Film film={currentFilm} onUpdate={handleUpdateFilm} onDelete={handleDeleteFilm} genres={genres} actors={allactors} producers={allproducers} companies={allcompanies}/>
+                {//добавление фильма
+                }
                 <AddFilm onAdd={handleAddFilm} />
                 
             </div>
