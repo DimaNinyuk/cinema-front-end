@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { escapeLeadingUnderscores } from "typescript";
-import "../../../assets/css/style.css";
 
 export default function Film({ film, onUpdate, onDelete, genres, actors, producers, companies }) {
 
