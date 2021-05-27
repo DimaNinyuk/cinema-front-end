@@ -1,4 +1,5 @@
 import React from "react";
+import { AppProvider } from "contexts/AppContext"
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // react components for routing our app without refresh
@@ -37,6 +38,7 @@ export default function Components(props) {
   const { ...rest } = props;
   return (
     <div>
+       <AppProvider>
       <Header
         brand="Material Kit React"
         rightLinks={<HeaderLinks />}
@@ -85,6 +87,7 @@ export default function Components(props) {
         <SectionDownload />
       </div>
       <Footer />
+      </AppProvider>
     </div>
   );
 }

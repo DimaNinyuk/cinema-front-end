@@ -57,7 +57,6 @@ const AppProvider = (props) => {
     // CSRF COOKIE
     axios.get(hostName + "sanctum/csrf-cookie").then(
       (response) => {
-        //console.log(response);
         // SIGNUP / REGISTER
         axios
           .post(hostName + "api/register", {
@@ -67,7 +66,6 @@ const AppProvider = (props) => {
           })
           .then(
             (response) => {
-              //console.log(response);
               // GET USER
               history.push("/profile");
             },
@@ -100,7 +98,6 @@ const AppProvider = (props) => {
   
     axios.get(hostName + "sanctum/csrf-cookie").then(
       (response) => {
-        //console.log(response);
         // LOGIN
         axios
           .post(hostName + "api/login", {
@@ -109,7 +106,6 @@ const AppProvider = (props) => {
           })
           .then(
             (response) => {
-              //console.log(response);
               // GET USER
               history.push("/profile");
             },
@@ -137,9 +133,7 @@ const AppProvider = (props) => {
         // Login...
     axios.get("http://localhost:8000/api/user").then(
       (response) => {
-        //console.log(response);
         // LOGIN
-                  console.log(response);
                   setUserId(response.data.id);
                   setUserName(response.data.name);
                   setErrorMessage("");
@@ -151,7 +145,6 @@ const AppProvider = (props) => {
                  history.push("/auth");
                 }
     );
-    console.log("yes");
               });
   }
   function logout() {

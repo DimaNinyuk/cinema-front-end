@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import history from './history'
-import { Router, Route, Switch } from "react-router-dom";
-
+import { Router, Route, Switch} from "react-router-dom";
 
 import "assets/scss/material-kit-react.scss?v=1.9.0";
 
@@ -16,8 +15,7 @@ import LoginGoogle from "components/Auth/LoginGoogle.js"
 import Profile from "views/Profile/Profile"
 import AdminProfile from "views/AdminProfile/AdminProfile.js"
 import Homepage from "views/Homepage/Homepage.js"
-
-
+import FilmDetail from "views/FilmDetail/FilmDetail.js"
 
 ReactDOM.render(
   <Router history={history}>
@@ -29,6 +27,7 @@ ReactDOM.render(
       <Route path="/auth" component={Auth} />
       <Route path="/auth-google" component={LoginGoogle} />
       <Route path="/profile" component={Profile} />
+      <Route path="/film-detail/:id" component={FilmDetail} />
       <Route path="/admin-profile" component={AdminProfile} />
       <Route path="/" component={Homepage} />
     </Switch>
