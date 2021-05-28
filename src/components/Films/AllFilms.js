@@ -10,7 +10,7 @@ export default function AllFilms () {
     const [allfilms, setallfilms] = useState([]);
     useEffect(() => {
           axios
-            .get("http://localhost:8000/api/films")
+            .get("http://localhost:8000/api/recommends")
             .then(
               (response) => {
                   console.log(response);

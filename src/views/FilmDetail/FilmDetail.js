@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams} from "react-router-dom";
 import { AppProvider } from "contexts/AppContext"
 // nodejs library that concatenates classes
 import classNames from "classnames";
@@ -30,6 +31,7 @@ const useStyles = makeStyles(styles);
 export default function FilmDetail(props) {
   const classes = useStyles();
   const { ...rest } = props;
+  const { id } = useParams();
   return (
     <div>
     <AppProvider>
@@ -49,7 +51,7 @@ export default function FilmDetail(props) {
         <div className={classes.container}>
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
-              <h1 className={classes.title}>Your Story Starts With Us.</h1>
+              <h1 className={classes.title}>Your Story Starts With Us. id={id}</h1>
               <h4>
                 Every landing page needs a small description after the big bold
                 title, that{"'"}s why we added this text here. Add here all the
