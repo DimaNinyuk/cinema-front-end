@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import axios from "axios";
 import { useParams} from "react-router-dom";
 import { AppProvider } from "contexts/AppContext"
 // nodejs library that concatenates classes
@@ -16,10 +17,15 @@ import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import Parallax from "components/Parallax/Parallax.js";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+
 
 import styles from "assets/jss/material-kit-react/views/landingPage.js";
 
 // Sections for this page
+import Information from "./Sections/Information";
+import Sessions from "./Sections/Sessions";
 import ProductSection from "./Sections/ProductSection.js";
 import TeamSection from "./Sections/TeamSection.js";
 import WorkSection from "./Sections/WorkSection.js";
@@ -32,13 +38,35 @@ export default function FilmDetail(props) {
   const classes = useStyles();
   const { ...rest } = props;
   const { id } = useParams();
+  const [film, setfilm] = useState({});
+
+  useEffect(() => {
+    axios
+        .get("http://localhost:8000/api/film-detail/"+id)
+        .then(
+            (response) => {
+                setfilm(response.data);
+            },
+        );
+}, []);
   return (
     <div>
     <AppProvider>
       <Header
         color="transparent"
         routes={dashboardRoutes}
-        brand="Material Kit React"
+        leftLinks={<List>
+            <ListItem className={classes.listItem}>
+         <Button
+           href="http://localhost:3000"
+           color="transparent"
+           style={{ fontSize: 40 }}
+           className={classes.navLink}
+         >
+          CinemaX
+         </Button>
+       </ListItem>
+         </List>}
         rightLinks={<HeaderLinks />}
         fixed
         changeColorOnScroll={{
@@ -51,12 +79,8 @@ export default function FilmDetail(props) {
         <div className={classes.container}>
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
-              <h1 className={classes.title}>Your Story Starts With Us. id={id}</h1>
+              <h1 className={classes.title}></h1>
               <h4>
-                Every landing page needs a small description after the big bold
-                title, that{"'"}s why we added this text here. Add here all the
-                information that can make you or your product create the first
-                impression.
               </h4>
               <br />
               <Button
@@ -73,7 +97,21 @@ export default function FilmDetail(props) {
           </GridContainer>
         </div>
       </Parallax>
-      <div className={classNames(classes.main, classes.mainRaised)}>
+      <div className={classNames(classes.mainRaised)} style={{marginTop:"50px"}}>
+        <GridContainer >
+         <GridItem>
+            <Information film={film}/>
+        </GridItem>
+    </GridContainer>
+    </div>
+    <div className={classNames(classes.mainRaised)} style={{marginTop:"50px"}}>
+        <GridContainer>
+         <GridItem >
+            <Sessions film={film}/>
+        </GridItem>
+    </GridContainer>
+    </div>
+      <div className={classNames(classes.main)} style={{marginTop:"50px"}}>
         <div className={classes.container}>
           <ProductSection />
           <TeamSection />

@@ -79,7 +79,6 @@ export default function Homepage(props) {
       
         <GridContainer >
          <GridItem>
-
             <FilmFilters/>
         </GridItem>
     </GridContainer>
