@@ -1,16 +1,13 @@
 import React from 'react';
+import axios from "axios";
+import { useParams} from "react-router-dom";
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-function a11yProps(index) {
-  return {
-    id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`,
-  };
-}
+
 
 const useStyles = makeStyles((theme) => ({
     gridContainer:{
@@ -28,60 +25,61 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Sessions() {
+export default function Sessions({film}) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-  const [values, setValues] = React.useState(0);
+  const [currentFilm, setCureentFilm] = React.useState({ ...film });
+  const [dates, setDates] = React.useState([]);
+  const [dateValue, setDateValue] = React.useState(0);
+  const [date, setDate] = React.useState(null);
+  const [sessions, setSessions] = React.useState([]);
+  const [currentSession, setCurrentSession] = React.useState(null);
+  const { id } = useParams();
 
-  const handleChanges = (event, newValue) => {
-    setValues(newValue);
+React.useEffect(() => {
+  setCureentFilm(film);
+  axios
+      .get("http://localhost:8000/api/film-dates/"+id)
+      .then(
+          (response) => {
+            setDates(response.data);
+          },
+      );
+}, []);
+
+  const handleDateChanges = (event, newValue) => {
+    console.log(newValue);
+    setDateValue(newValue);
+    setDate(dates[newValue]);
+    console.log(dates[newValue]);
   };
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleSessionChange = (event, newValue) => {
+    setCurrentSession(newValue);
   };
 
+ const dateItems = (
+      dates.length>0? <div  className={classes.root}><Tabs
+      orientation="vertical"
+      variant="scrollable"
+      value={dateValue}
+      onChange={handleDateChanges}
+      className={classes.tabs}
+    >{dates.map((date,i)=>{
+      return <Tab key={i} label={date.date} />
+    })}</Tabs>
+    </div>
+    :<div>No Data</div>
+  );
   return (
     <div >
          <Grid container spacing={0} className={classes.gridContainer}>
         <Grid item xs={2} >
           <Paper className={classes.paper}>
-          <div  className={classes.root}>
-      <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        value={value}
-        onChange={handleChange}
-        className={classes.tabs}
-      >
-        <Tab label="Item One" {...a11yProps(0)} />
-        <Tab label="Item Two" {...a11yProps(1)} />
-        <Tab label="Item Three" {...a11yProps(2)} />
-        <Tab label="Item Four" {...a11yProps(3)} />
-        <Tab label="Item Five" {...a11yProps(4)} />
-        <Tab label="Item Six" {...a11yProps(5)} />
-        <Tab label="Item Seven" {...a11yProps(6)} />
-      </Tabs>
-      </div>
+          {dateItems}
           </Paper>
         </Grid>
         <Grid item xs={2}>
           <Paper className={classes.paper}>
           <div  className={classes.root}>
-      <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        value={value}
-        onChange={handleChange}
-        className={classes.tabs}
-      >
-        <Tab label="Item One" {...a11yProps(0)} />
-        <Tab label="Item Two" {...a11yProps(1)} />
-        <Tab label="Item Three" {...a11yProps(2)} />
-        <Tab label="Item Four" {...a11yProps(3)} />
-        <Tab label="Item Five" {...a11yProps(4)} />
-        <Tab label="Item Six" {...a11yProps(5)} />
-        <Tab label="Item Seven" {...a11yProps(6)} />
-      </Tabs>
       </div>
           </Paper>
         </Grid>

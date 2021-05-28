@@ -7,28 +7,20 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 
 
-function a11yProps(index) {
-    return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
-    };
-}
-
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-        display: 'flex',
-        height: 500,
-    },
-    tabs: {
-        borderRight: `1px solid ${theme.palette.divider}`,
-    },
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    height: 324,
+    flexDirection: 'column',
+  },
+  tabs: {
+    borderRight: `1px solid ${theme.palette.divider}`,
+  },
 }));
 export default function Films() {
     const [allfilms, setallfilms] = useState([]);
@@ -41,8 +33,8 @@ export default function Films() {
     const [value, setValue] = useState(0);
 
     function handleChange(e,newValue) {
-        e.preventDefault();
         setValue(newValue);
+        getFilmDetail(allfilms[newValue]);
     };
     //метод, который заполняет данными переменную выбранного фильма (перересовка выбраного фильма)
     function getFilmDetail(film) {
@@ -167,23 +159,20 @@ export default function Films() {
     return (
 <div>
         <Grid container spacing={1}>
-            <Grid xs={2}>
+            <Grid item xs={2}>
             <div className={classes.root}>
             <Tabs
                 orientation="vertical"
                 variant="scrollable"
                 value={value}
-                onChange={(e) => handleChange(e)}
-                aria-label="Vertical tabs example"
+                onChange={handleChange}
                 className={classes.tabs}
             >
                 {
                     //вывод списка фильмов
                     allfilms.map((film, i) => {
                         return (
-                            <div key={i}>
-                            <Tab onClick={() => handleClick(film)} label={ film.name} {...a11yProps(i)} />
-                            </div>
+                            <Tab key={i} label={ film.name}  />
                         );
 
                     }
