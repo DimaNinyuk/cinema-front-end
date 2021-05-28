@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { escapeLeadingUnderscores } from "typescript";
+import { post } from 'axios';
 
 export default function Film({ film, onUpdate, onDelete, genres, actors, producers, companies }) {
 
     //состояния
     const [currentFilm, setcurrentFilm] = useState({ ...film });
+    const [image, setImage] = useState();
     //метод, который вызывается первый при загрузки страницы, здесь заполняем страницу детальными данными о фильме
     useEffect(() => {
         setcurrentFilm(film);
@@ -96,6 +98,45 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
         //записаем копию в оригинал детальный фильм
         setcurrentFilm(state);
     }
+    function handleInputImage(e) {
+        let files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
+            return;
+        console.log(files[0])
+        setImage(files[0]);
+    }
+    function onFormSubmit(e) {
+        e.preventDefault()
+        let formData = new FormData(); // instantiate it
+        // suppose you have your file ready
+        formData.set('file', image);
+        //console.log(formData.get('file'));
+        axios.defaults.withCredentials = true;
+        axios.get("http://localhost:8000/" + "sanctum/csrf-cookie").then(
+            (response) => {
+                axios.post('http://localhost:8000/api/admin-upload-image-film', formData, {
+                    headers: {
+                        'content-type': 'multipart/form-data' // do not forget this 
+                    }
+                }).then(
+                    (response) => {
+                        console.log(response.data);
+
+                    },
+                )
+            })
+        /*axios.defaults.withCredentials = true;
+        axios.get("http://localhost:8000/" + "sanctum/csrf-cookie").then(
+            (response) => {
+                axios.post("http://localhost:8000/api/admin-upload-image-film", image).then(
+                    (response) => {
+                        console.log(response.data);
+                        //setImage(response.data);
+
+                    },
+                )
+            })*/
+    }
     //рендер если фильм отсутствует
     if (!film) {
         return (<div>  Film Doesnt exist </div>);
@@ -152,14 +193,11 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
                             );
                         }))}
                     </select>
-                    <form >
-                            <input type="file" name="image"  placeholder="Select file..."/>
-                            <br />
-                            <br />
-                            <button type="submit" name="upload">
-                                Upload
-                            </button>
-                        </form>
+                    <form onSubmit={(e) => onFormSubmit(e)}>
+                        <h1>File Upload Film</h1>
+                        <input name="file" type="file" onChange={(e) => handleInputImage(e)} encType="multipart/form-data" />
+                        <button type="submit">Upload</button>
+                    </form>
                     <button onClick={(e) => handleUpdate(e)}>Update</button>
                     <button onClick={(e) => handleDelete(e)}>Delete</button>
                 </div>
