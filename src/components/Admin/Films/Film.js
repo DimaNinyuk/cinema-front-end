@@ -2,12 +2,37 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { escapeLeadingUnderscores } from "typescript";
 import { post } from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControl from '@material-ui/core/FormControl';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import CardMedia from '@material-ui/core/CardMedia';
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& .MuiTextField-root': {
+            margin: theme.spacing(1),
+            width: '50ch',
+        },
+        '& .MuiFormGroup-root': {
+            display: 'block',
+        },
+        '& .MuiNativeSelect-select.MuiNativeSelect-select': {
+            paddingRight: '50ch',
+        },
+    },
+
+}));
+
 
 export default function Film({ film, onUpdate, onDelete, genres, actors, producers, companies }) {
 
     //состояния
     const [currentFilm, setcurrentFilm] = useState({ ...film });
     const [image, setImage] = useState();
+    const classes = useStyles();
     //метод, который вызывается первый при загрузки страницы, здесь заполняем страницу детальными данными о фильме
     useEffect(() => {
         setcurrentFilm(film);
@@ -142,59 +167,140 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
         return (<div>  Film Doesnt exist </div>);
     }
     else {
+
         return currentFilm ?
             (
-                <div >
-                    <label> Name:
-                        <input type="text" value={currentFilm.name} onChange={(e) => handleInput('name', e)} />
-                    </label>
-                    <label> Description:
-                    <input type="text" value={currentFilm.description != null ? currentFilm.description : ""} onChange={(e) => handleInput('description', e)} />
-                    </label>
+
+                <div className={classes.root} >
+                    <label>Film</label>
+                    <hr />
+                    <TextField
+                        fullWidth
+                        id="standard-multiline-flexible"
+                        label="Name:"
+                        multiline
+                        rowsMax={4}
+                        value={currentFilm.name}
+                        onChange={(e) => handleInput('name', e)}
+                    />
+                    <TextField
+                        id="outlined-multiline-static"
+                        label="Description:"
+                        multiline
+                        rows={4}
+                        defaultValue={currentFilm.description != null ? currentFilm.description : ""}
+                        variant="outlined"
+                        onChange={(e) => handleInput('description', e)}
+                    />
+                    <TextField
+                        fullWidth
+                        id="standard-multiline-flexible"
+                        label="Release date:"
+                        multiline
+                        rowsMax={4}
+                        value={currentFilm.release_date != null ? currentFilm.release_date : ""}
+                        onChange={(e) => handleInput('release_date', e)}
+                    />
+                    <TextField
+                        fullWidth
+                        id="standard-multiline-flexible"
+                        label="Link trailer:"
+                        multiline
+                        rowsMax={4}
+                        value={currentFilm.link_trailer != null ? currentFilm.link_trailer : ""}
+                        onChange={(e) => handleInput('link_trailer', e)}
+                    />
+                    <TextField
+                        fullWidth
+                        id="standard-multiline-flexible"
+                        label="Duration:"
+                        multiline
+                        rowsMax={4}
+                        value={currentFilm.duration != null ? currentFilm.duration : ""}
+                        onChange={(e) => handleInput('duration', e)}
+                    />
+
+                    <br />
+                    <br />
+                    <label>Genres film</label>
+                    <hr />
+
                     <input type="hidden" value={currentFilm.id} />
                     {
                         //вывод списка жанров в виде checkbox
                     }
-                    {(genres.map((genre, i) => {
-                        return (
-                            <div key={i}>
-                                <input onChange={(e) => handleInputGenre(e)}
-                                    checked={currentFilm.genrefilms?.filter(g => g.genre_id === genre.id).length > 0 ? "checked" : ""} type="checkbox"
-                                    value={genre.id} />
-                                {genre.name}
-                            </div>
-                        );
-                    }))}
-                    {(actors.map((actor, i) => {
-                        return (
-                            <div key={i}>
-                                <input onChange={(e) => handleInputActor(e)}
-                                    checked={currentFilm.actorfilms?.filter(g => g.actor_id === actor.id).length > 0 ? "checked" : ""} type="checkbox"
-                                    value={actor.id} />
-                                {actor.name}
-                            </div>
-                        );
-                    }))}
-                    {(producers.map((producer, i) => {
-                        return (
-                            <div key={i}>
-                                <input onChange={(e) => handleInputProducer(e)}
-                                    checked={currentFilm.producerfilms?.filter(g => g.producer_id === producer.id).length > 0 ? "checked" : ""} type="checkbox"
-                                    value={producer.id} />
-                                {producer.name}
-                            </div>
-                        );
-                    }))}
-                    <select onChange={(e) => handleInput('company_id', e)} value={currentFilm.company_id !== null ? currentFilm.company_id : ""}>
-                        {(companies.map((company, i) => {
-
+                    <FormGroup row>
+                        {(genres.map((genre, i) => {
                             return (
-                                <option key={i} value={company.id}  >{company.name}</option>
+                                <FormControlLabel key={i}
+                                    control={<Checkbox checked={currentFilm.genrefilms?.filter(g => g.genre_id === genre.id).length > 0 ? "checked" : ""} onChange={(e) => handleInputGenre(e)} value={genre.id} />}
+                                    label={genre.name}
+                                />
                             );
                         }))}
-                    </select>
+                    </FormGroup>
+                    <br />
+                    <label>Actors film</label>
+                    <hr />
+                    <FormGroup row>
+                        {(actors.map((actor, i) => {
+                            return (
+                                <FormControlLabel key={i}
+                                    control={<Checkbox checked={currentFilm.actorfilms?.filter(g => g.actor_id === actor.id).length > 0 ? "checked" : ""} onChange={(e) => handleInputActor(e)} value={actor.id} />}
+                                    label={actor.name}
+                                />
+                            );
+                        }))}
+                    </FormGroup>
+                    <br />
+                    <label>Producers film</label>
+                    <hr />
+                    <FormGroup row>
+                        {(producers.map((producer, i) => {
+                            return (
+                                <FormControlLabel key={i}
+                                    control={<Checkbox checked={currentFilm.producerfilms?.filter(g => g.producer_id === producer.id).length > 0 ? "checked" : ""} onChange={(e) => handleInputProducer(e)} value={producer.id} />}
+                                    label={producer.name}
+                                />
+                            );
+                        }))}
+                    </FormGroup>
+                    <br />
+                    <label>Company film</label>
+                    <hr />
+                    <FormControl >
+
+                        <NativeSelect
+                            value={currentFilm.company_id !== null ? currentFilm.company_id : ""}
+                            onChange={(e) => handleInput('company_id', e)}
+                        >
+                            {(companies.map((company, i) => {
+
+                                return (
+                                    <option key={i} value={company.id} >{company.name}</option>
+                                );
+                            }))}
+                        </NativeSelect>
+                    </FormControl>
+                    <br />
+                    <br />
+                    <label>Image upload </label>
+                    <hr />
+                    <br />
+                    <label>Old image</label>
+                    <br />
+                    <CardMedia>
+                        <img
+                        src={currentFilm.image !==null ? "http://localhost:8000/img/film/"+currentFilm.image.img:"http://localhost:8000/img/film/default.jpg"}
+                        alt="First slide"
+                        className="slick-image"
+                      />
+                    </CardMedia>
+                    <br />
+                    <label>New image</label>
+                    <br />
+                    <br />
                     <form onSubmit={(e) => onFormSubmit(e)}>
-                        <h1>File Upload Film</h1>
                         <input name="file" type="file" onChange={(e) => handleInputImage(e)} encType="multipart/form-data" />
                         <button type="submit">Upload</button>
                     </form>

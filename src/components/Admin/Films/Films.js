@@ -11,16 +11,16 @@ import Grid from '@material-ui/core/Grid';
 
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    height: 324,
-    flexDirection: 'column',
-  },
-  tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
-  },
+    root: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper,
+        display: 'flex',
+        height: 324,
+        flexDirection: 'column',
+    },
+    tabs: {
+        borderRight: `1px solid ${theme.palette.divider}`,
+    },
 }));
 export default function Films() {
     const [allfilms, setallfilms] = useState([]);
@@ -32,7 +32,7 @@ export default function Films() {
     const classes = useStyles();
     const [value, setValue] = useState(0);
 
-    function handleChange(e,newValue) {
+    function handleChange(e, newValue) {
         setValue(newValue);
         getFilmDetail(allfilms[newValue]);
     };
@@ -157,46 +157,37 @@ export default function Films() {
     }
     //рендер страницы
     return (
-<div>
-        <Grid container spacing={1}>
-            <Grid item xs={2}>
-            <div className={classes.root}>
-            <Tabs
-                orientation="vertical"
-                variant="scrollable"
-                value={value}
-                onChange={handleChange}
-                className={classes.tabs}
-            >
-                {
-                    //вывод списка фильмов
-                    allfilms.map((film, i) => {
-                        return (
-                            <Tab key={i} label={ film.name}  />
-                        );
+        <div>
+            <Grid container spacing={1}>
+                <Grid item xs={2}>
+                    <div className={classes.root}>
+                        <Tabs
+                            orientation="vertical"
+                            variant="scrollable"
+                            value={value}
+                            onChange={handleChange}
+                            className={classes.tabs}
+                        >
+                            {
+                                //вывод списка фильмов
+                                allfilms.map((film, i) => {
+                                    return (
+                                        <Tab key={i} label={film.name} />
+                                    );
 
-                    }
-                    )
-                }
-            </Tabs>
-            </div>
+                                }
+                                )
+                            }
+                        </Tabs>
+                    </div>
+                </Grid>
+                <Grid xs={10}>
+                    <Film film={currentFilm} onUpdate={handleUpdateFilm} onDelete={handleDeleteFilm} genres={genres} actors={allactors} producers={allproducers} companies={allcompanies} />
+                </Grid>
             </Grid>
-            <Grid xs={10}>
-            <Film film={currentFilm} onUpdate={handleUpdateFilm} onDelete={handleDeleteFilm} genres={genres} actors={allactors} producers={allproducers} companies={allcompanies} />
-            </Grid>
-        </Grid>
-        
-            
-                   
-                            
-                            
-                     
-                
-            
 
+            <h3>Add Films</h3>
 
-            <h3>All Films</h3>
-            
             {//добавление фильма
             }
             <AddFilm onAdd={handleAddFilm} />
@@ -205,5 +196,5 @@ export default function Films() {
 
 
     );
-    
+
 };
