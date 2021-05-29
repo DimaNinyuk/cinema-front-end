@@ -26,9 +26,7 @@ import styles from "assets/jss/material-kit-react/views/landingPage.js";
 // Sections for this page
 import Information from "./Sections/Information";
 import Sessions from "./Sections/Sessions";
-import ProductSection from "./Sections/ProductSection.js";
-import TeamSection from "./Sections/TeamSection.js";
-import WorkSection from "./Sections/WorkSection.js";
+import ReviewsSection from "./Sections/ReviewsSection.js";
 
 const dashboardRoutes = [];
 
@@ -97,26 +95,20 @@ export default function FilmDetail(props) {
           </GridContainer>
         </div>
       </Parallax>
-      <div className={classNames(classes.mainRaised)} style={{marginTop:"50px"}}>
-        <GridContainer >
-         <GridItem>
+      <div className={classNames(classes.main, classes.mainRaised)}>
+      <div className={classes.container}>
             <Information film={film}/>
-        </GridItem>
-    </GridContainer>
+            </div>
     </div>
     <div className={classNames(classes.mainRaised)} style={{marginTop:"50px"}}>
-        <GridContainer>
-         <GridItem >
+    <div className={classes.container}>
             <Sessions film={film}/>
-        </GridItem>
-    </GridContainer>
+            </div>
     </div>
       <div className={classNames(classes.main)} style={{marginTop:"50px"}}>
         <div className={classes.container}>
-          <ProductSection />
-          <TeamSection />
-          <WorkSection />
-        </div>
+          <ReviewsSection />
+          </div>
       </div>
       <Footer />
       </AppProvider>
