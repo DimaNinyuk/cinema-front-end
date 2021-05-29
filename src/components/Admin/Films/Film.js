@@ -10,6 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import CardMedia from '@material-ui/core/CardMedia';
+import { DropzoneArea } from 'material-ui-dropzone'
 const useStyles = makeStyles((theme) => ({
     root: {
         '& .MuiTextField-root': {
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
         '& .MuiNativeSelect-select.MuiNativeSelect-select': {
             paddingRight: '50ch',
         },
+        '& .MuiDropzoneArea-root': {
+            width: '99%',
+        },
     },
 
 }));
@@ -32,6 +36,7 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
     //состояния
     const [currentFilm, setcurrentFilm] = useState({ ...film });
     const [image, setImage] = useState();
+    const [zoneimage, setzoneimage] = useState(null);
     const classes = useStyles();
     //метод, который вызывается первый при загрузки страницы, здесь заполняем страницу детальными данными о фильме
     useEffect(() => {
@@ -130,6 +135,10 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
         console.log(files[0])
         setImage(files[0]);
     }
+    function onChangeImageZone(file){
+        console.log(file[0]);
+        setImage(file[0]);
+    }
     function onFormSubmit(e) {
         e.preventDefault()
         let formData = new FormData(); // instantiate it
@@ -145,7 +154,8 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
                     }
                 }).then(
                     (response) => {
-                        console.log(response.data);
+                        //console.log(response.data);
+                        setzoneimage(response.data);
 
                     },
                 )
@@ -188,7 +198,7 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
                         label="Description:"
                         multiline
                         rows={4}
-                        defaultValue={currentFilm.description != null ? currentFilm.description : ""}
+                        value={currentFilm.description != null ? currentFilm.description : ""}
                         variant="outlined"
                         onChange={(e) => handleInput('description', e)}
                     />
@@ -226,6 +236,7 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
                     <hr />
 
                     <input type="hidden" value={currentFilm.id} />
+                    <input type="hidden"  onChange={(e) => handleInput('image_id', e)} value={zoneimage ===null ? currentFilm.image_id:zoneimage } />
                     {
                         //вывод списка жанров в виде checkbox
                     }
@@ -291,19 +302,25 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
                     <br />
                     <CardMedia>
                         <img
-                        src={currentFilm.image !==null ? "http://localhost:8000/img/film/"+currentFilm.image.img:"http://localhost:8000/img/film/default.jpg"}
-                        alt="First slide"
-                        className="slick-image"
-                      />
+                            src={currentFilm.image !== null ? "http://localhost:8000/img/film/" + currentFilm.image.img : "http://localhost:8000/img/film/default.jpg"}
+                            alt="First slide"
+                            className="slick-image"
+                        />
                     </CardMedia>
                     <br />
                     <label>New image</label>
                     <br />
                     <br />
                     <form onSubmit={(e) => onFormSubmit(e)}>
-                        <input name="file" type="file" onChange={(e) => handleInputImage(e)} encType="multipart/form-data" />
+                        
+                        <DropzoneArea
+                            acceptedFiles={['image/*']}
+                            dropzoneText={"Drag and drop an image here or click"}
+                            onChange={(files) => onChangeImageZone(files)}
+                        />
                         <button type="submit">Upload</button>
                     </form>
+
                     <button onClick={(e) => handleUpdate(e)}>Update</button>
                     <button onClick={(e) => handleDelete(e)}>Delete</button>
                 </div>
