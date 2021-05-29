@@ -3,7 +3,6 @@ import axios from "axios";
 import Film from "components/Admin/Films/Film.js";
 import AddFilm from "components/Admin/Films/AddFilm.js";
 //import menu
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -30,7 +29,7 @@ export default function Films() {
     const [allproducers, setProducers] = useState();
     const [allcompanies, setCompanies] = useState();
     const classes = useStyles();
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState();
 
     function handleChange(e, newValue) {
         setValue(newValue);
@@ -84,11 +83,6 @@ export default function Films() {
                 },
             );
     }, []);
-    //метод отвечает за обработку клика выбора фильма
-    function handleClick(film) {
-
-        getFilmDetail(film);
-    };
     //медот отвечает за добавление фильма
     function handleAddFilm(film) {
         axios.defaults.withCredentials = true;
@@ -98,6 +92,7 @@ export default function Films() {
                     (response) => {
                         setallfilms(allfilms => [...allfilms, response.data]);
                         getFilmDetail(response.data);
+                        setValue(allfilms.length);
                     },
                 )
             })
@@ -132,6 +127,7 @@ export default function Films() {
                         axios.post("http://localhost:8000/api/admin-producerfilm", film.producerfilms).then(
                             (response) => {
                                 getFilmDetail(film);
+                                setValue(allfilms.length-1);
                             })
                     },
                 )
@@ -150,13 +146,14 @@ export default function Films() {
                             return item.id !== currentFilm.id
                         })
                         setallfilms(array);
-                        setcurrentFilm(null);
+                        setcurrentFilm(allfilms[0]);
+                        setValue(0);
                     },
                 )
             })
     }
     //рендер страницы
-    return (
+    return allfilms?(
         <div>
             <Grid container spacing={1}>
                 <Grid item xs={2}>
@@ -185,16 +182,10 @@ export default function Films() {
                     <Film film={currentFilm} onUpdate={handleUpdateFilm} onDelete={handleDeleteFilm} genres={genres} actors={allactors} producers={allproducers} companies={allcompanies} />
                 </Grid>
             </Grid>
-
-            <h3>Add Films</h3>
-
-            {//добавление фильма
-            }
             <AddFilm onAdd={handleAddFilm} />
 
         </div>
 
-
-    );
+    ): (<div><p>Loading...</p></div>);
 
 };

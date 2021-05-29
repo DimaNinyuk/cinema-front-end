@@ -15,22 +15,26 @@ const defaultForm = {
     style: { paddingLeft: '3%', paddingRight: '3%' },
 };
 
-export default function AddFilm({ onAdd }) {
-    const [newfilm, setnewfilm] = useState(
+export default function AddSession({ onAdd }) {
+    const [newSession, setnewSession] = useState(
         {
-            name: "",
-            release_date: null,
+
+            date:"",
+            time:"",
+            price:0,
+            hall_id:null,
+            film_id:null,
         }
     );
     function handleSubmit(e) {
         e.preventDefault();
         // console.log(newfilm);
-        onAdd(newfilm);
+        onAdd(newSession);
     };
     function handleInput(key, e) {
-        var state = Object.assign({}, newfilm);
+        var state = Object.assign({}, newSession);
         state[key] = e.target.value;
-        setnewfilm(state);
+        setnewSession(state);
     };
     return (
 
@@ -38,7 +42,7 @@ export default function AddFilm({ onAdd }) {
 
             <Box borderColor="secondary.main" {...defaultProps}>
                 <br />
-                <label>Add film</label>
+                <label>Add session</label>
                 <hr />
                 <br />
                 <div >
@@ -47,19 +51,19 @@ export default function AddFilm({ onAdd }) {
                         <TextField
                             fullWidth
                             id="standard-multiline-flexible"
-                            label="Name:"
+                            label="Date:"
                             multiline
                             rowsMax={4}
 
-                            onChange={(e) => handleInput('name', e)}
+                            onChange={(e) => handleInput('date', e)}
                         />
                         <TextField
                             fullWidth
                             id="standard-multiline-flexible"
-                            label="Release date:"
+                            label="Time:"
                             multiline
                             rowsMax={4}
-                            onChange={(e) => handleInput('release_date', e)}
+                            onChange={(e) => handleInput('time', e)}
                         />
                         <br />
                         <br />

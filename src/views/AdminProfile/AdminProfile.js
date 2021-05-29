@@ -38,6 +38,8 @@ import work5 from "assets/img/examples/clem-onojegaw.jpg";
 import Films from "components/Admin/Films/Films.js"
 //style
 import styles from "assets/jss/material-kit-react/views/profilePage.js";
+import Sessions from 'components/Admin/Sessions/Sessions.js';
+import Buyings from 'components/Admin/Buyings/Buyings.js';
 
 const useStyles = makeStyles(styles);
 
@@ -96,7 +98,7 @@ export default function ProfilePage(props) {
                             </GridContainer>
                            
                             <GridContainer justify="center">
-                                <GridItem xs={12} sm={12} md={8} className={classes.navWrapper}>
+                                <GridItem xs={12} sm={12} md={12} className={classes.navWrapper}>
                                     <NavPills
                                         alignCenter
                                         color="primary"
@@ -112,30 +114,6 @@ export default function ProfilePage(props) {
 
                                                             </Films>
                                                         </GridItem>
-                                                        <GridItem xs={12} sm={12} md={4}>
-                                                            <img
-                                                                alt="..."
-                                                                src={studio1}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={studio2}
-                                                                className={navImageClasses}
-                                                            />
-                                                        </GridItem>
-                                                        <GridItem xs={12} sm={12} md={4}>
-                                                            <img
-                                                                alt="..."
-                                                                src={studio5}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={studio4}
-                                                                className={navImageClasses}
-                                                            />
-                                                        </GridItem>
                                                     </GridContainer>
                                                 )
                                             },
@@ -144,34 +122,10 @@ export default function ProfilePage(props) {
                                                 tabIcon: LiveTv,
                                                 tabContent: (
                                                     <GridContainer justify="center">
-                                                        <GridItem xs={12} sm={12} md={4}>
-                                                            <img
-                                                                alt="..."
-                                                                src={work1}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={work2}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={work3}
-                                                                className={navImageClasses}
-                                                            />
-                                                        </GridItem>
-                                                        <GridItem xs={12} sm={12} md={4}>
-                                                            <img
-                                                                alt="..."
-                                                                src={work4}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={work5}
-                                                                className={navImageClasses}
-                                                            />
+                                                        <GridItem >
+                                                            <Sessions>
+                                                                
+                                                            </Sessions>
                                                         </GridItem>
                                                     </GridContainer>
                                                 )
@@ -181,34 +135,10 @@ export default function ProfilePage(props) {
                                                 tabIcon: Assignment,
                                                 tabContent: (
                                                     <GridContainer justify="center">
-                                                        <GridItem xs={12} sm={12} md={4}>
-                                                            <img
-                                                                alt="..."
-                                                                src={work4}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={studio3}
-                                                                className={navImageClasses}
-                                                            />
-                                                        </GridItem>
-                                                        <GridItem xs={12} sm={12} md={4}>
-                                                            <img
-                                                                alt="..."
-                                                                src={work2}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={work1}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={studio1}
-                                                                className={navImageClasses}
-                                                            />
+                                                        <GridItem >
+                                                            <Buyings>
+
+                                                            </Buyings>
                                                         </GridItem>
                                                     </GridContainer>
                                                 )

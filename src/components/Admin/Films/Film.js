@@ -11,6 +11,10 @@ import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import CardMedia from '@material-ui/core/CardMedia';
 import { DropzoneArea } from 'material-ui-dropzone'
+import UpdateIcon from '@material-ui/icons/Update';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Backup from '@material-ui/icons/Backup';
+import Button from '@material-ui/core/Button';
 const useStyles = makeStyles((theme) => ({
     root: {
         '& .MuiTextField-root': {
@@ -25,6 +29,13 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .MuiDropzoneArea-root': {
             width: '99%',
+        },
+        button: {
+            margin: theme.spacing(1),
+
+        },
+        '& .MuiButton-contained': {
+            marginRight: '5%',
         },
     },
 
@@ -135,7 +146,7 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
         console.log(files[0])
         setImage(files[0]);
     }
-    function onChangeImageZone(file){
+    function onChangeImageZone(file) {
         console.log(file[0]);
         setImage(file[0]);
     }
@@ -155,7 +166,9 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
                 }).then(
                     (response) => {
                         //console.log(response.data);
-                        setzoneimage(response.data);
+                        var state = Object.assign({}, currentFilm);
+                        state["image_id"] = response.data;
+                        setcurrentFilm(state);
 
                     },
                 )
@@ -184,6 +197,8 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
                 <div className={classes.root} >
                     <label>Film</label>
                     <hr />
+                    <br/>
+                    <br/>
                     <TextField
                         fullWidth
                         id="standard-multiline-flexible"
@@ -236,7 +251,7 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
                     <hr />
 
                     <input type="hidden" value={currentFilm.id} />
-                    <input type="hidden"  onChange={(e) => handleInput('image_id', e)} value={zoneimage ===null ? currentFilm.image_id:zoneimage } />
+
                     {
                         //вывод списка жанров в виде checkbox
                     }
@@ -312,17 +327,51 @@ export default function Film({ film, onUpdate, onDelete, genres, actors, produce
                     <br />
                     <br />
                     <form onSubmit={(e) => onFormSubmit(e)}>
-                        
+
                         <DropzoneArea
                             acceptedFiles={['image/*']}
                             dropzoneText={"Drag and drop an image here or click"}
                             onChange={(files) => onChangeImageZone(files)}
                         />
-                        <button type="submit">Upload</button>
+                        <br />
+                    <br />
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="default"
+                            className={classes.button}
+                            startIcon={<Backup />}
+                        >
+                            Upload
+                    </Button>
+                    <br />
+                    <br />
                     </form>
 
-                    <button onClick={(e) => handleUpdate(e)}>Update</button>
-                    <button onClick={(e) => handleDelete(e)}>Delete</button>
+                    <label>Film changes</label>
+                    <hr />
+                    <br />
+                    <br />
+                    <Button
+                        onClick={(e) => handleUpdate(e)}
+                        variant="contained"
+                        color="default"
+                        className={classes.button}
+                        startIcon={<UpdateIcon />}
+                    >
+                        Update
+                    </Button>
+                    <Button
+                        onClick={(e) => handleDelete(e)}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        startIcon={<DeleteIcon />}
+                    >
+                        Delete
+                    </Button>
+                    <br />
+                    <br />
                 </div>
             )
             : (<div key={film.name}><p>Loading...</p></div>);
