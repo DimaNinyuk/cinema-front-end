@@ -40,6 +40,7 @@ import Films from "components/Admin/Films/Films.js"
 import styles from "assets/jss/material-kit-react/views/profilePage.js";
 import Sessions from 'components/Admin/Sessions/Sessions.js';
 import Buyings from 'components/Admin/Buyings/Buyings.js';
+import Reviews from "components/Admin/Reviews/Reviews";
 
 const useStyles = makeStyles(styles);
 
@@ -148,34 +149,10 @@ export default function ProfilePage(props) {
                                                 tabIcon: ChatBubble,
                                                 tabContent: (
                                                     <GridContainer justify="center">
-                                                        <GridItem xs={12} sm={12} md={4}>
-                                                            <img
-                                                                alt="..."
-                                                                src={work4}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={studio3}
-                                                                className={navImageClasses}
-                                                            />
-                                                        </GridItem>
-                                                        <GridItem xs={12} sm={12} md={4}>
-                                                            <img
-                                                                alt="..."
-                                                                src={work2}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={work1}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={studio1}
-                                                                className={navImageClasses}
-                                                            />
+                                                        <GridItem>
+                                                            <Reviews>
+                                                                
+                                                            </Reviews>
                                                         </GridItem>
                                                     </GridContainer>
                                                 )
