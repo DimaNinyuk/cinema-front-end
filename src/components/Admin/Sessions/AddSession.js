@@ -36,7 +36,7 @@ export default function AddSession({ onAdd }) {
         state[key] = e.target.value;
         setnewSession(state);
     };
-    return (
+    return newSession?(
 
         <div>
 
@@ -84,5 +84,5 @@ export default function AddSession({ onAdd }) {
             <br />
         </div>
 
-    );
+    ): (<div><p>Loading...</p></div>);
 };

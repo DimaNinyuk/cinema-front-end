@@ -32,7 +32,7 @@ export default function AddFilm({ onAdd }) {
         state[key] = e.target.value;
         setnewfilm(state);
     };
-    return (
+    return newfilm?(
 
         <div>
 
@@ -80,5 +80,5 @@ export default function AddFilm({ onAdd }) {
             <br />
         </div>
 
-    );
+    ): (<div><p>Loading...</p></div>);
 };
