@@ -32,6 +32,7 @@ export default function HeaderLinks(props) {
   const classes = useStyles();
   const thisClasses = thisUseStyles();
   const appContext = useContext(AppContext);
+  const [searchValue, setSearchValue] = React.useState("");
   const {
     cart,
     setCart
@@ -44,13 +45,16 @@ export default function HeaderLinks(props) {
                     classes: {
                       input: thisClasses.multilineColor,
                   },
-                  placeholder:'Seacrh'
+                  placeholder:'Seacrh',
+                  value:searchValue,
+                  onChange:(e)=>{setSearchValue(e.target.value)}
                   }}
+                  
                 /></div>
       </ListItem>
       <ListItem className={classes.listItem}>
       <Button
-          href="http://localhost:3000/profile"
+          href={searchValue!==""?"http://localhost:3000/film-search?key="+searchValue:"#"}
           color="transparent"
           className={classes.navLink}
         >

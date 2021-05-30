@@ -19,7 +19,6 @@ const LoginGoogle = (props) => {
                     }
         );
     });
-        console.log("yes");
     }, []);
       return (
         <div className=""> 

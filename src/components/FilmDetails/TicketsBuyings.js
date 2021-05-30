@@ -17,18 +17,18 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor:'white',
     },
     gridContainer:{
-        height:424,
+        height:430,
         marginBottom:1,
     },
     gridScreen:{
       overflow: "auto",
-      height:424,
+      height:430,
     },
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    height: 424,
+    height: 430,
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -46,6 +46,7 @@ export default function TicketsBuyings({film}) {
   const [currentDate, setDate] = React.useState(0);
   const [sessions, setSessions] = React.useState([]);
   const [currentSession, setCurrentSession] = React.useState(null);
+  const [paymentButton, setPaymentButton] = React.useState("");
   const [order, setOrder] = React.useState({session_id:null,seats:[],sum:0.00});
   var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   var formatter = new Intl.DateTimeFormat('en', options);
@@ -97,8 +98,15 @@ React.useEffect(() => {
     else
     {state.seats.splice(state.seats.map(function (s) { return s.id; }).indexOf(seat.id), 1);
     state.sum=(parseFloat(state.sum).toFixed(2)-parseFloat(seat.price).toFixed(2));}
-    setOrder(state);
-    console.log(state);
+    axios
+      .get("http://localhost:8000/api/get-payment-string/"+state.sum)
+      .then(
+          (response) => {
+            setPaymentButton(response.data);
+            setOrder(state);
+          },
+      );
+    //console.log(state);
 
   }
 
@@ -148,7 +156,7 @@ const screenItemRender = (
            >
               {r.seats.map((s,i)=>{;
              return <label key={i} className="ticket-btn">
-               {currentSession.buyings.filter(b=>b.seat_id===s.id).length>0?<input type="checkbox" checked disabled/>:<input value={s.id} onChange={(e)=>changeOrder(e)} type="checkbox"/>}
+               {currentSession.buyings.map(bs=>bs?.buyingseats?.filter(b=>b.seat_id===s.id).length>0?<input type="checkbox" checked disabled/>:<input value={s.id} onChange={(e)=>changeOrder(e)} type="checkbox"/>)}
              <span>{s.number}</span>
              </label>
             })}
@@ -169,9 +177,9 @@ const totalRender = (currentSession?
 <TextField fullWidth id="filled-basic" label="Hall:" variant="filled" value={currentSession.hall?.name+" "+currentSession.hall?.type?.name}/>
 <TextField fullWidth id="filled-basic" label="Number of tickets:" variant="filled" value={order.seats.length}/>
 <TextField fullWidth id="filled-basic" label="Total for payment:" variant="filled"value={order.sum.toFixed(2)+"₴"}/>
-<Button  fullWidth variant="contained" color="primary">
-        Buy Now!
-      </Button>
+{//<Button  fullWidth variant="contained" color="primary">Buy Now!</Button>
+}
+{order.sum>0?<div width="20px" dangerouslySetInnerHTML={{__html: paymentButton}}></div>:<div></div>}
 </div>:<div></div>
 )
   return (

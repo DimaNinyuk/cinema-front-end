@@ -3,7 +3,6 @@ import axios from "axios";
 import { AppContext } from "contexts/AppContext";
 
 const ProfileMain = (props) => {
-
   const appContext = useContext(AppContext);
   const {getprofile} = appContext;
   useEffect(() => {
