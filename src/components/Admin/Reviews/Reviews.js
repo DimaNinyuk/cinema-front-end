@@ -43,6 +43,13 @@ export default function Reviews() {
 }
   return allfilms?(
     <TableContainer component={Paper}>
+      <br />
+            <br />
+            <label>Review films</label>
+            <hr />
+            <br />
+            <br />
+            <br />
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
