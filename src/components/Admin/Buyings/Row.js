@@ -31,7 +31,7 @@ export default function Row({ buying }) {
         setcurrentBuying(buying);
     }, [buying])
 
-    return currentBuying ?
+    return buying ?
         (
             <React.Fragment>
                 <TableRow className={classes.root}>

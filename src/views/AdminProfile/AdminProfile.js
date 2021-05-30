@@ -21,19 +21,9 @@ import HeaderLinks from "components/Header/HeaderLinks.js";
 import NavPills from "components/NavPills/NavPills.js";
 import Parallax from "components/Parallax/Parallax.js";
 
-import profile from "assets/img/faces/christian.jpg";
+import profile from "assets/img/profile.png";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import studio1 from "assets/img/examples/studio-1.jpg";
-import studio2 from "assets/img/examples/studio-2.jpg";
-import studio3 from "assets/img/examples/studio-3.jpg";
-import studio4 from "assets/img/examples/studio-4.jpg";
-import studio5 from "assets/img/examples/studio-5.jpg";
-import work1 from "assets/img/examples/olu-eletu.jpg";
-import work2 from "assets/img/examples/clem-onojeghuo.jpg";
-import work3 from "assets/img/examples/cynthia-del-rio.jpg";
-import work4 from "assets/img/examples/mariya-georgieva.jpg";
-import work5 from "assets/img/examples/clem-onojegaw.jpg";
 //Films
 import Films from "components/Admin/Films/Films.js"
 //style
@@ -41,6 +31,7 @@ import styles from "assets/jss/material-kit-react/views/profilePage.js";
 import Sessions from 'components/Admin/Sessions/Sessions.js';
 import Buyings from 'components/Admin/Buyings/Buyings.js';
 import Reviews from "components/Admin/Reviews/Reviews";
+import Statistics from "components/Admin/Statistics/Statistics";
 
 const useStyles = makeStyles(styles);
 
@@ -90,7 +81,7 @@ export default function ProfilePage(props) {
                                             <img src={profile} alt="..." className={imageClasses} />
                                         </div>
                                         <div className={classes.name}>
-                                            <h3 className={classes.title}>Christian Louboutin</h3>
+                                            <h3 className={classes.title}>Ivanov I. I.</h3>
                                             <h6>ADMIN</h6>
                                             
                                         </div>
@@ -162,34 +153,10 @@ export default function ProfilePage(props) {
                                                 tabIcon: Assessment,
                                                 tabContent: (
                                                     <GridContainer justify="center">
-                                                        <GridItem xs={12} sm={12} md={4}>
-                                                            <img
-                                                                alt="..."
-                                                                src={work4}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={studio3}
-                                                                className={navImageClasses}
-                                                            />
-                                                        </GridItem>
-                                                        <GridItem xs={12} sm={12} md={4}>
-                                                            <img
-                                                                alt="..."
-                                                                src={work2}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={work1}
-                                                                className={navImageClasses}
-                                                            />
-                                                            <img
-                                                                alt="..."
-                                                                src={studio1}
-                                                                className={navImageClasses}
-                                                            />
+                                                        <GridItem>
+                                                            <Statistics>
+
+                                                            </Statistics>
                                                         </GridItem>
                                                     </GridContainer>
                                                 )

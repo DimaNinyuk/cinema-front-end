@@ -15,22 +15,30 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Button from '@material-ui/core/Button';
 const useRowStyles = makeStyles({
     root: {
         '& > *': {
             borderBottom: 'unset',
         },
+        '& .MuiButton-contained': {
+            marginRight: '5%',
+        },
     },
 });
 
-export default function Row({ film }) {
+export default function Row({ film,onDelete }) {
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
     const [currentfilm, setcurrentFilm] = useState({ ...film });
     useEffect(() => {
         setcurrentFilm(film);
     }, [film])
-
+    function handleDelete(e,review) {
+        e.preventDefault();
+        onDelete(review);
+    };
     return currentfilm ?
         (
             <React.Fragment>
@@ -57,7 +65,6 @@ export default function Row({ film }) {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>Date</TableCell>
-                                            <TableCell>Comment</TableCell>
                                             <TableCell>Reviewer</TableCell>
                                             <TableCell>Comment</TableCell>
                                             <TableCell align="right">Change</TableCell>
@@ -72,7 +79,18 @@ export default function Row({ film }) {
                                                     </TableCell>
                                                     <TableCell>{review.name}</TableCell>
                                                     <TableCell>{review.comment}</TableCell>
-                                                    <TableCell align="right">Button</TableCell>
+                                                    <TableCell align="right">
+                                                        <Button
+                                                            
+                                                            onClick={(e) => handleDelete(e,review)}
+                                                            variant="contained"
+                                                            color="secondary"
+                                                            className={classes.button}
+                                                            startIcon={<DeleteIcon />}
+                                                        >
+                                                            Delete
+                                                        </Button>
+                                                    </TableCell>
                                                 </TableRow>
                                             ))}
                                     </TableBody>
