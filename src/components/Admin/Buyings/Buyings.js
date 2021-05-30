@@ -24,22 +24,24 @@ const useRowStyles = makeStyles({
   },
 });
 
-function createData(id, date, sum) {
-  return {
-    id,
-    date,
-    sum,
-    history: [
-      { seat: '2020-01-05', row: '11091700', hall: 3 },
-      { seat: '2020-01-02', row: 'Anonymous', hall: 1 },
-    ],
-  };
-}
 
-function Row(props) {
-  const { row } = props;
+function Row() {
+  const [allbuyings, setAllBuyings] = useState([]);
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
+  useEffect(() => {
+    axios.defaults.withCredentials = true;
+    axios.get("http://localhost:8000/" + "sanctum/csrf-cookie").then(
+        (response) => {
+            axios
+                .get("http://localhost:8000/api/admin-sessions")
+                .then(
+                    (response) => {
+                        setAllBuyings(response.data);
+                    },
+                );
+        })
+}, []);
 
   return (
     <React.Fragment>
@@ -92,32 +94,6 @@ function Row(props) {
     </React.Fragment>
   );
 }
-
-Row.propTypes = {
-  row: PropTypes.shape({
-    calories: PropTypes.number.isRequired,
-    carbs: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    history: PropTypes.arrayOf(
-      PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        customerId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    protein: PropTypes.number.isRequired,
-  }).isRequired,
-};
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0),
-  createData('Ice cream sandwich', 237, 9.0),
-  createData('Eclair', 262, 16.0),
-  createData('Cupcake', 305, 3.7),
-  createData('Gingerbread', 356, 16.05),
-];
 
 export default function Buyings() {
   return (
