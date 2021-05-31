@@ -12,7 +12,7 @@ import {
 const AppContext = React.createContext();
 
 const AppProvider = (props) => {
-  let hostName = "";
+  let hostName = "http://localhost:8000/";
   if (process.env.NODE_ENV === "development") {
     hostName = "http://localhost:8000/";
   } else if (process.env.NODE_ENV === "production") {

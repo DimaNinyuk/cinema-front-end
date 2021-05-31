@@ -4,7 +4,7 @@ import AuthMenu from "./AuthMenu";
 
 const AuthLogout = () => {
   const appContext = useContext(AppContext);
-  const { userName, logout } = appContext;
+  const { userName, logout,authStatus } = appContext;
   return (
     <div className="flex w-full rounded ">
       <div className="w-1/2 bg-white py-24 px-24 rounded-l-lg">
@@ -19,7 +19,9 @@ const AuthLogout = () => {
             className="font-inter_bold hover:bg-blue-500 text-blue-500 hover:text-white 
             text-center rounded py-2 px-10 border border-blue-500 focus:outline-none"
             onClick={() => logout()}
+            
           >
+            {authStatus}
             Logout
           </button>
         </div>

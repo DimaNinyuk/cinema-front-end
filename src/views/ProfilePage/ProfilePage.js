@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { AppProvider } from "contexts/AppContext"
+import { AppContext } from "contexts/AppContext";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -24,10 +25,15 @@ import Parallax from "components/Parallax/Parallax.js";
 import profile from "assets/img/profile.png";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import HeaderProfile from "./HeaderProfile.js";
 //Films
 import Films from "components/Admin/Films/Films.js"
 //style
 import styles from "assets/jss/material-kit-react/views/profilePage.js";
+import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
+import LocalPlayIcon from '@material-ui/icons/LocalPlay';
+import NewTickets from "components/Admin/User/NewTickets.js";
+import PlayFilm from "components/Admin/User/PlayFilm.js";
 
 const useStyles = makeStyles(styles);
 
@@ -39,7 +45,6 @@ export default function ProfilePage(props) {
         classes.imgRoundedCircle,
         classes.imgFluid
     );
-
     const navImageClasses = classNames(classes.imgRounded, classes.imgGallery);
     return (
         <div>
@@ -77,8 +82,8 @@ export default function ProfilePage(props) {
                                             <img src={profile} alt="..." className={imageClasses} />
                                         </div>
                                         <div className={classes.name}>
-                                            <h3 className={classes.title}>Petrov I. I.</h3>
-                                            <h6>USER</h6>
+                                            <h3 className={classes.title}><HeaderProfile></HeaderProfile></h3>
+                                            
                                             
                                         </div>
                                     </div>
@@ -92,57 +97,26 @@ export default function ProfilePage(props) {
                                         color="primary"
                                         tabs={[
                                             {
-                                                tabButton: "Films",
-                                                tabIcon: LocalMovies,
+                                                tabButton: "History tickets",
+                                                tabIcon: ConfirmationNumberIcon,
                                                 tabContent: (
                                                     
                                                     <GridContainer justify="center">
                                                         <GridItem>
-                                                           
+                                                           <NewTickets>
+
+                                                           </NewTickets>
                                                         </GridItem>
                                                     </GridContainer>
                                                 )
                                             },
                                             {
-                                                tabButton: "Sessions",
-                                                tabIcon: LiveTv,
+                                                tabButton: "Now tickets",
+                                                tabIcon: LocalPlayIcon,
                                                 tabContent: (
                                                     <GridContainer justify="center">
                                                         <GridItem >
-                                                            
-                                                        </GridItem>
-                                                    </GridContainer>
-                                                )
-                                            },
-                                            {
-                                                tabButton: "Orders",
-                                                tabIcon: Assignment,
-                                                tabContent: (
-                                                    <GridContainer justify="center">
-                                                        <GridItem >
-                                                            
-                                                        </GridItem>
-                                                    </GridContainer>
-                                                )
-                                            },
-                                            {
-                                                tabButton: "Reviews",
-                                                tabIcon: ChatBubble,
-                                                tabContent: (
-                                                    <GridContainer justify="center">
-                                                        <GridItem>
-                                                            
-                                                        </GridItem>
-                                                    </GridContainer>
-                                                )
-                                            },
-                                            {
-                                                tabButton: "Statistics",
-                                                tabIcon: Assessment,
-                                                tabContent: (
-                                                    <GridContainer justify="center">
-                                                        <GridItem>
-                                                            
+                                                            <PlayFilm></PlayFilm>
                                                         </GridItem>
                                                     </GridContainer>
                                                 )
