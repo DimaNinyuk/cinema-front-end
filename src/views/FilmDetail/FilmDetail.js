@@ -73,7 +73,7 @@ export default function FilmDetail(props) {
         }}
         {...rest}
       />
-      <Parallax filter image={require("assets/img/landing-bg.jpg")}>
+      <Parallax filter image={film?.image?.img?film.image.img:require("assets/img/bg4.jpg")}>
         <div className={classes.container}>
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
@@ -82,9 +82,10 @@ export default function FilmDetail(props) {
               </h4>
               <br />
               <Button
+                autofocus="true"
                 color="danger"
                 size="lg"
-                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ref=creativetim"
+                href={film?.link_trailer?film.link_trailer:"https://www.youtube.com"}
                 target="_blank"
                 rel="noopener noreferrer"
               >

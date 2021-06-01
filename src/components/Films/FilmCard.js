@@ -23,7 +23,7 @@ export default function FilmCard({film}) {
                 <img
                 style={{height: "180px", width: "100%", display: "block"}}
                 className={classes.imgCardTop}
-                src="..."
+                src={film.image?"http://localhost:8000/img/film/"+film.image.img:"http://localhost:8000/img/film/default.jpg"}
                 alt="Card-img-cap"
                 />
                 <CardBody>

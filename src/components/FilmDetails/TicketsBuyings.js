@@ -182,7 +182,7 @@ const totalRender = (currentSession?
 {order.sum>0?<div width="20px" dangerouslySetInnerHTML={{__html: paymentButton}}></div>:<div></div>}
 </div>:<div></div>
 )
-  return (
+  if (dates.length>0) return (
     <div>
          <Grid container spacing={1}  >
         <Grid item xs={12} sm={2}>
@@ -208,4 +208,5 @@ const totalRender = (currentSession?
       </Grid>
     </div>
   );
+  else return "";
 }

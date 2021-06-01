@@ -16,9 +16,7 @@ const useStyles2 = makeStyles((theme) => ({
     },
   },
 }));
-
 export default function AllFilms() {
-
   const classes = useStyles();
   const classes2 = useStyles();
   const [allfilms, setallfilms] = useState([]);
@@ -27,12 +25,10 @@ export default function AllFilms() {
       .get("http://localhost:8000/api/recommends")
       .then(
         (response) => {
-          console.log(response);
           setallfilms(response.data);
         },
       );
   }, []);
-
   return (
     <div >
       <Grid container>

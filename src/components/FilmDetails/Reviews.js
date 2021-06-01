@@ -117,5 +117,5 @@ export default function Reviews({film, updateChild}) {
     </GridContainer>
     </div>
   )
-  else return <div></div> 
+  else return <div><h6 style={{color:"black"}}>No reviews yet</h6></div> 
 }

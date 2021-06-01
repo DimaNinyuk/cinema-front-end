@@ -37,7 +37,7 @@ export default function FilmTopNews(){
       slidesToScroll: 1,
       autoplay: true
     };
-  return (
+  if (films.length>0)return (
     
     <GridContainer justify="center">
       <GridItem xs={12} sm={12} md={12}>
@@ -49,11 +49,13 @@ export default function FilmTopNews(){
                 src={"http://localhost:8000/img/film/"+f.image.img}
                 alt="First slide"
                 className="slick-image"
+                
               />
               <div className="slick-caption">
-                <h6>
-                {f.name+" - "+f.release_date}
-                </h6>
+              <a href={"http://localhost:3000/film-detail/"+f.id}><h6>sssssss
+               {f.name+" - "+f.release_date}
+              </h6>
+              </a>
               </div>
             </div>
           })
@@ -68,9 +70,10 @@ export default function FilmTopNews(){
               className="slick-image"
             />
             <div className="slick-caption">
-              <h6>sssssss
+              <a href={"http://localhost:3000/film-detail/"+f.id}><h6>sssssss
                {f.name+" - "+f.release_date}
               </h6>
+              </a>
             </div>
           </div>
         })
@@ -81,4 +84,5 @@ export default function FilmTopNews(){
     </GridContainer>
   
   );
+  else return "";
 }
