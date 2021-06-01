@@ -19,7 +19,7 @@ const AuthMenu = (props) => {
           </Button>
           <Button simple color="primary" size="lg" 
                   onClick={() => changeAuthStatusLogin()}>
-                    LOGIN
+                    SIGNIN
           </Button>
           </GridContainer>
         </div>

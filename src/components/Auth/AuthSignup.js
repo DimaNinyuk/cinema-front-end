@@ -29,7 +29,7 @@ import SnackbarContent from "components/Snackbar/SnackbarContent.js";
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
-import image from "assets/img/bg7.jpg";
+import image from "assets/img/bg4.jpg";
 
 const useStyles = makeStyles(styles);
 
@@ -110,7 +110,7 @@ useEffect(() => {
             <Card className={classes[cardAnimaton]}>
               <form className={classes.form}>
                 <CardHeader color="primary" className={classes.cardHeader}>
-                  <h4>Signup</h4>
+                  <h4>Get started</h4>
                   <div className={classes.socialLine}>
                     <Button
                       justIcon

@@ -66,14 +66,14 @@ export default function Homepage(props) {
         </div>
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
+         <FilmTopNews />
+    </div>
+      <div className={classNames(classes.main, classes.mainRaised)} style={{marginTop:"50px"}}>
         <GridContainer >
          <GridItem>
             <AllFilms/>
         </GridItem>
     </GridContainer>
-    </div>
-    <div className={classNames(classes.mainRaised)} style={{marginTop:"50px"}}>
-         <FilmTopNews />
     </div>
     <div className={classNames(classes.mainRaised)} style={{marginTop:"50px"}}>
       

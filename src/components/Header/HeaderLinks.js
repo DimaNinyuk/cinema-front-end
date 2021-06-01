@@ -24,7 +24,7 @@ import styles from "assets/jss/material-kit-react/components/headerLinksStyle.js
 const useStyles = makeStyles(styles);
 const thisStyles = theme => ({
   multilineColor:{
-      color:'purple'
+      color:'white'
   }
 });
 const thisUseStyles = makeStyles(thisStyles);
@@ -104,17 +104,17 @@ export default function HeaderLinks(props) {
         </Tooltip>*/}
         <Tooltip
           id="instagram-twitter"
-          title="Follow us on twitter"
+          title="Follow us on youtube"
           placement={window.innerWidth > 959 ? "top" : "left"}
           classes={{ tooltip: classes.tooltip }}
         >
           <Button
-            href="https://twitter.com/CreativeTim?ref=creativetim"
+            href="https://youtube.com/"
             target="_blank"
             color="transparent"
             className={classes.navLink}
           >
-            <i className={classes.socialIcons + " fab fa-twitter"} />
+            <i className={classes.socialIcons + " fab fa-youtube"} />
           </Button>
         </Tooltip>
       </ListItem>
@@ -127,7 +127,7 @@ export default function HeaderLinks(props) {
         >
           <Button
             color="transparent"
-            href="https://www.facebook.com/CreativeTim?ref=creativetim"
+            href="https://www.facebook.com"
             target="_blank"
             className={classes.navLink}
           >
@@ -144,7 +144,7 @@ export default function HeaderLinks(props) {
         >
           <Button
             color="transparent"
-            href="https://www.instagram.com/CreativeTimOfficial?ref=creativetim"
+            href="https://www.instagram.com/"
             target="_blank"
             className={classes.navLink}
           >
