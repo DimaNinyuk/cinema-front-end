@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 // react component for creating beautiful carousel
 import Carousel from "react-slick";
 // material-ui components
@@ -18,6 +19,16 @@ import styles from "assets/jss/material-kit-react/views/componentsSections/carou
 const useStyles = makeStyles(styles);
 export default function FilmTopNews(){
     const classes = useStyles();
+    const [films, setfilms] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/newfilms")
+      .then(
+        (response) => {
+          setfilms(response.data);
+        },
+      );
+  }, []);
     const settings = {
       dots: true,
       infinite: true,
@@ -31,47 +42,40 @@ export default function FilmTopNews(){
     <GridContainer justify="center">
       <GridItem xs={12} sm={12} md={12}>
         <Card>
-          <Carousel {...settings}>
-            <div>
+        {films.length>0?films.length>4?<Carousel {...settings}>
+          {films.slice(0,4).map((f,i)=>{
+              return <div key={i}>
               <img
-                src="http://localhost:8000/img/bg.jpg"
+                src={"http://localhost:8000/img/film/"+f.image.img}
                 alt="First slide"
                 className="slick-image"
               />
               <div className="slick-caption">
-                <h4>
-                 ellowstone
-                  National Park, United States
-                </h4>
+                <h6>
+                {f.name+" - "+f.release_date}
+                </h6>
               </div>
             </div>
-            <div>
-              <img
-                src={image2}
-                alt="Second slide"
-                className="slick-image"
-              />
-              <div className="slick-caption">
-                <h4>
-                  Somewhere Beyond,
-                  United States
-                </h4>
-              </div>
+          })
+        }
+        </Carousel>:
+        <Carousel {...settings}>
+        {films.map((f,i)=>{
+            return <div key={i}>
+            <img
+              src={f.image?"http://localhost:8000/img/film/"+f.image.img:"http://localhost:8000/img/film/default.jpg"}
+              alt="First slide"
+              className="slick-image"
+            />
+            <div className="slick-caption">
+              <h6>sssssss
+               {f.name+" - "+f.release_date}
+              </h6>
             </div>
-            <div>
-              <img
-                src={image3}
-                alt="Third slide"
-                className="slick-image"
-              />
-              <div className="slick-caption">
-                <h4>
-                  Yellowstone
-                  National Park, United States
-                </h4>
-              </div>
-            </div>
-          </Carousel>
+          </div>
+        })
+      }
+      </Carousel>:<div></div>}
         </Card>
       </GridItem>
     </GridContainer>

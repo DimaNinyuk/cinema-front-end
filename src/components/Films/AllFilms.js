@@ -35,7 +35,7 @@ export default function AllFilms() {
 
   return (
     <div >
-      <Grid containr>
+      <Grid container>
         <Grid item xs={12} className={classes.textCenter}>
           <div className={classes2.root}>
             <LinearProgress />
@@ -51,7 +51,6 @@ export default function AllFilms() {
             * attribute that is unique for each list item
             */
             <GridItem item xs={12} sm={6} md={4} lg={3} key={film.id} >
-              {film.name}
               <FilmCard film={film} />
             </GridItem>
           );

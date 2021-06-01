@@ -27,9 +27,10 @@ export default function FilmCard({film}) {
                 alt="Card-img-cap"
                 />
                 <CardBody>
-                <h4 className={classes.cardTitle}>name = {film.name}</h4>
-                <h4 className={classes.cardTitle}>date = {film.release_date}</h4>
-                <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <h4 className={classes.cardTitle}>{film.name}</h4>
+                <h4 className={classes.cardTitle}>Genre: {film.genrefilms?.length>0?
+                film.genrefilms.map((g,i)=>{return <span key={i}>{g.genre?.name}  </span>}):<span>-</span>}</h4>
+                <p>{film.description?.substr(0, 150)}...</p>
                 <FilmCartButton film={film}/>
                 </CardBody>
             </Card>
