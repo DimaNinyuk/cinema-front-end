@@ -17,6 +17,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Send from '@material-ui/icons/Send';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 const useRowStyles = makeStyles({
     root: {
         '& > *': {
@@ -32,28 +33,73 @@ export default function Row({ buying }) {
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
     const [currentBuying, setcurrentBuying] = useState({ ...buying });
+    const [currenrFilePDF, setcurrenrFilePDF] = useState(null);
+    const [dataEmailAndBuyindId, setCurrentEmailAndBuyingId] = useState(
+        {
+            email: "",
+            buyingId: 0
+        });
+        
     useEffect(() => {
         setcurrentBuying(buying);
     }, [buying])
+    function handleSubmit(e) {
+        e.preventDefault();
+        // console.log(newfilm);
+        console.log(e.target["email"].value);
+    };
+    function handleSetData(e) {
+        e.preventDefault();
+        const link = document.createElement("a");
+        link.href = "http://localhost:8000/api/downloadPDF/" + currentBuying.id;
+        link.click();
+    }
+    function handleSendData(e) {
+        e.preventDefault();
+        var state = Object.assign({}, dataEmailAndBuyindId);
+        state['email'] = e.target["email"].value;
+        state['buyingId'] = currentBuying.id;
+        setCurrentEmailAndBuyingId(state);
+        //console.log(state);
+        let formData = new FormData(); // instantiate it
+        // suppose you have your file ready
+        formData.set('email', state['email']);
+        formData.set('buyingId', state['buyingId']);
+        //console.log(formData.get('file'));
+        axios.defaults.withCredentials = true;
+        axios.get("http://localhost:8000/" + "sanctum/csrf-cookie").then(
+            (response) => {
+                axios.post('http://localhost:8000/api/user-send-email', formData, {
+                    headers: {
+                        'content-type': 'multipart/form-data' // do not forget this 
+                    }
+                }).then(
+                    (response) => {
+                        console.log(response.data);                    },
+                )
+            })
+    }
     return currentBuying ?
         (
             <React.Fragment>
                 <TableRow className={classes.root}>
+
                     <TableCell>
                         <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
                             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         </IconButton>
                     </TableCell>
-                    <TableCell component="th" scope="row">
+                    <TableCell name='buying_id' component="th" scope="row">
                         {buying.id}
                     </TableCell>
                     <TableCell align="right">{buying.session.date}</TableCell>
                     <TableCell align="right">{buying.session.time}</TableCell>
                     <TableCell align="right">{buying.session.film.name}</TableCell>
                     <TableCell align="right">
-                        <form action={"http://localhost:8000/api/downloadPDF/" + buying.id}>
-                            
-                            <Button
+
+
+                        <Button
+                            onClick={(e) => handleSetData(e)}
                             type="submit"
                             download
                             variant="contained"
@@ -63,10 +109,35 @@ export default function Row({ buying }) {
                         >
                             Download PDF
                         </Button>
-                        </form>
-                        
+
                     </TableCell>
-                    <TableCell align="right">Send PDF</TableCell>
+
+                    <TableCell align="right">
+                        <form onSubmit={(e) => handleSendData(e)}>
+                            <TextField
+                                fullWidth
+                                id="standard-multiline-flexible"
+                                label="email:"
+                                name="email"
+                                multiline
+                                rowsMax={4}
+                            />
+                            <br />
+                            <br />
+
+                            <Button
+                                type="submit"
+                                value="Submit"
+                                variant="contained"
+                                color="default"
+                                startIcon={<Send />}
+                            >
+
+                                Send PDF
+                        </Button>
+                        </form>
+                    </TableCell>
+
                 </TableRow>
                 <TableRow>
                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
