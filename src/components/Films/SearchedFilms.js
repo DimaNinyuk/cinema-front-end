@@ -22,7 +22,7 @@ export default function SearchedFilms ({props}) {
   
     if (searchedfilms.length>0) return (
       <div>
-                <h3>Searched Films</h3>
+                <h3>Results:</h3>
                 <GridContainer style={{padding: "25px"}}>
                 {searchedfilms.map(film => {
                 return (

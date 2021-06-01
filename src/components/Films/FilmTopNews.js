@@ -24,7 +24,7 @@ export default function FilmTopNews(){
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
-      autoplay: false
+      autoplay: true
     };
   return (
     
@@ -40,7 +40,7 @@ export default function FilmTopNews(){
               />
               <div className="slick-caption">
                 <h4>
-                  <LocationOn className="slick-icons" />Yellowstone
+                 ellowstone
                   National Park, United States
                 </h4>
               </div>
@@ -53,7 +53,7 @@ export default function FilmTopNews(){
               />
               <div className="slick-caption">
                 <h4>
-                  <LocationOn className="slick-icons" />Somewhere Beyond,
+                  Somewhere Beyond,
                   United States
                 </h4>
               </div>
@@ -66,7 +66,7 @@ export default function FilmTopNews(){
               />
               <div className="slick-caption">
                 <h4>
-                  <LocationOn className="slick-icons" />Yellowstone
+                  Yellowstone
                   National Park, United States
                 </h4>
               </div>

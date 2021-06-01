@@ -3,6 +3,7 @@ import axios from "axios";
 import FilmCard from "./FilmCard";
 import GridContainer from "components/Grid/GridContainer";
 import GridItem from "components/Grid/GridItem";
+import Grid from '@material-ui/core/Grid';
 import { AppProvider } from "contexts/AppContext"
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
@@ -26,11 +27,13 @@ import profileImage from "assets/img/faces/avatar.jpg";
 import Paginations from "components/Pagination/Pagination.js";
 
 import styles from "assets/jss/material-kit-react/views/componentsSections/navbarsStyle.js";
+import styles2 from "assets/jss/material-kit-react/views/components.js";
 
 const useStyles = makeStyles(styles);
+const useStyles2 = makeStyles(styles2);
 export default function FilmFilters() {
     const classes = useStyles();
-    
+    const classes2 = useStyles2();
     function formatDate(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
@@ -82,8 +85,9 @@ export default function FilmFilters() {
     return (
         <div>
             <AppProvider>
-                <GridContainer justify="center">
-                    <GridItem xs={12} sm={12} md={3}>
+                <Grid container>
+                    <Grid item xs={12} className={classes2.textCenter}>
+                        <h6>Movies Filter</h6>
                         <FormControl >
                             <Datetime 
                                 inputProps={{ placeholder: "Select Date ...", value:selecteddate,
@@ -94,8 +98,8 @@ export default function FilmFilters() {
                                 }}
                             />  
                         </FormControl>
-                    </GridItem>
-                </GridContainer>
+                    </Grid>
+                </Grid>
                 <div id="nav-tabs">
                     <GridContainer>
                         <GridItem xs={12} sm={12} md={12}>

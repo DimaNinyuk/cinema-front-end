@@ -1,6 +1,7 @@
 import React,  { useContext }from "react";
 import Button from "components/CustomButtons/Button.js";
 import { AppContext } from "contexts/AppContext";
+import history from '../../history';
 
 export default function FilmCartButton({film}) {
   
@@ -15,10 +16,7 @@ export default function FilmCartButton({film}) {
     }
     
     function press2() {
-      cart.map(c=>{
-        console.log(c.name);
-      })
-        
+        history.push('/film-detail/'+film.id)
     }
     return(
         <div>
