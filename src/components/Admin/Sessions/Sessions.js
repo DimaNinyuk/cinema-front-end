@@ -132,8 +132,7 @@ export default function Sessions() {
                                 //вывод списка фильмов
                                 allsessions.map((session, i) => {
                                     return (
-
-                                        <Tab key={i} label={session?.film.name!==null?session.film.name:""}></Tab>
+                                        session.film === null?<Tab key={i} label={session.id}></Tab>:<Tab key={i} label={"FIlm"}></Tab>
                                     );
 
                                 }
