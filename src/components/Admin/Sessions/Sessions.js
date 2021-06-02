@@ -116,7 +116,7 @@ export default function Sessions() {
                 )
             })
     }
-    return currentSession ? (
+    return(
         <div>
             <Grid container spacing={1}>
                 <Grid item xs={2}>
@@ -133,7 +133,7 @@ export default function Sessions() {
                                 allsessions.map((session, i) => {
                                     return (
 
-                                        <Tab key={i} label={session.id}></Tab>
+                                        <Tab key={i} label={session?.film.name!==null?session.film.name:""}></Tab>
                                     );
 
                                 }
@@ -150,6 +150,6 @@ export default function Sessions() {
             <br/>
             <AddSession onAdd={handleAddSession} />
         </div>
-    ) : (<div><p>Loading...</p></div>);
+    );
 
 };
