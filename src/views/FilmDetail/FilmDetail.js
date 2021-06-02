@@ -81,10 +81,11 @@ export default function FilmDetail(props) {
               <h4>
               </h4>
               <br />
+              {console.log(film)}
               <Button
                 color="danger"
                 size="lg"
-                href={film?.link_trailer?film.link_trailer:"https://www.youtube.com"}
+                href={film.link_trailer?film.link_trailer:"http://youtube.com"}
                 target="_blank"
                 rel="noopener noreferrer"
               >
