@@ -82,7 +82,6 @@ export default function FilmDetail(props) {
               </h4>
               <br />
               <Button
-                autofocus="true"
                 color="danger"
                 size="lg"
                 href={film?.link_trailer?film.link_trailer:"https://www.youtube.com"}

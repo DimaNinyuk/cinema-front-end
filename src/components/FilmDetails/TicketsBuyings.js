@@ -79,6 +79,7 @@ React.useEffect(() => {
   const handleSessionChange = (event, newValue, handler) => {
     var state = handler===false?null:sessions.filter(s=>s.date===currentDate.date)[newValue];
     setCurrentSession(state);
+    setTimeValue(newValue);
     setOrder({session_id:null,seats:[],sum:0});
   };
   function changeOrder(e){
@@ -132,18 +133,18 @@ React.useEffect(() => {
     onChange={(e,v) => handleSessionChange(e,v,true)}
     className={classes.tabs}
   >{sessions.filter(session=>session.date===currentDate.date).map((session,i)=>{
-    return <Tab key={i} label={session.time} />
+    return <Tab key={i} label={session.time+" Hall:"+session.hall?.name+" "+session.hall?.type?.name} />
   })}</Tabs>
   </div>
   :<div className={classes.noDisplay}></div>
 );
 
 const screenItemRender = (
-  currentSession!==null? <div  className={classes.gridScreen}> 
+  currentSession!==null? <div  className={classes.gridScreen} key={currentSession.id}> 
       <Button  fullWidth variant="contained" color="primary">
         SCREEN
       </Button>
-    {currentSession.hall.rows.sort((a, b) => a.number > b.number ? 1 : -1).map((r,i)=>{
+    {currentSession?.hall?.rows.sort((a, b) => a.number > b.number ? 1 : -1).map((r,i)=>{
       return  <Grid key={i} container >
       <Grid item xs={1}>
         Row {r.number}</Grid>
@@ -156,7 +157,11 @@ const screenItemRender = (
            >
               {r.seats.map((s,i)=>{;
              return <label key={i} className="ticket-btn">
-               {currentSession.buyings.map(bs=>bs?.buyingseats?.filter(b=>b.seat_id===s.id).length>0?<input type="checkbox" checked disabled/>:<input value={s.id} onChange={(e)=>changeOrder(e)} type="checkbox"/>)}
+               {currentSession.buyings.length>0?currentSession.buyings.map(bs=>
+                bs?.buyingseats?.filter(b=>b.seat_id===s.id).length>0?
+                <input type="checkbox" checked disabled/>:
+                <input value={s.id} onChange={(e)=>changeOrder(e)} type="checkbox"/>):
+                <input value={s.id} onChange={(e)=>changeOrder(e)} type="checkbox"/>}
              <span>{s.number}</span>
              </label>
             })}
