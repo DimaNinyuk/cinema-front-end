@@ -13,6 +13,7 @@ import Button from "components/CustomButtons/Button.js";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Email from "@material-ui/icons/Email";
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
+import SnackbarContent from "components/Snackbar/SnackbarContent.js";
 
 const useStyles = makeStyles(styles);
 
@@ -20,12 +21,28 @@ export default function AddReview ({film, updateParrent}) {
     const classes = useStyles();
     const{id}=useParams();
     const [review, setcurrentReview] = useState({name:"",email:"",comment:"", film_id:id});
+    const [errorMessage, setErrorMessage]=useState("");
+    function hasErrors(){
+      let errors="";
+      if(review.comment.length>500) errors="Review is too long. Maximum amount of charters: 500. You have "+review.comment.length+".";
+      if(review.comment.length<200) errors="Review is too short. Minimum amount of charters: 200.You have "+review.comment.length+".";
+      let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if ( !re.test(review.email) ) {
+        errors="Please, write your email.";
+      }
+      if(review.name.length<2 || review.name.length>100) errors="Please, write your short name.";
+      setErrorMessage(errors);
+      return errors===""?false:true;
+      
+    }
     function changeInput(e, key){
         var state = Object.assign({}, review);
         state[key]=e.target.value;
         setcurrentReview(state);
+        setErrorMessage("");
     }
     function click(){
+      if(hasErrors()==false){
         axios.defaults.withCredentials = true;
         axios.get("http://localhost:8000/" + "sanctum/csrf-cookie").then(
             (response) => {
@@ -36,7 +53,7 @@ export default function AddReview ({film, updateParrent}) {
                     },
                 )
             })
-        
+          }
     }
 
     return (
@@ -105,6 +122,11 @@ export default function AddReview ({film, updateParrent}) {
             </form>
           </GridItem>
         </GridContainer>
+        {errorMessage===""?"":<SnackbarContent
+                message={<b>{errorMessage}</b>}
+                color="danger"
+                icon="info_outline"
+              />}
       </div>
     );
   };

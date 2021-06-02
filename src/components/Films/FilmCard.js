@@ -9,6 +9,7 @@ import FilmCartButton from "./FilmCartButton";
 import imagesStyles from "assets/jss/material-kit-react/imagesStyles.js";
 
 import { cardTitle } from "assets/jss/material-kit-react.js";
+import CardFooter from "components/Card/CardFooter";
 
 const styles = {
   ...imagesStyles,
@@ -26,13 +27,17 @@ export default function FilmCard({film}) {
                 src={film.image?"http://localhost:8000/img/film/"+film.image.img:"http://localhost:8000/img/film/default.jpg"}
                 alt="Card-img-cap"
                 />
-                <CardBody>
+                <CardBody style={{height:300,overflow:"auto"}}>
                 <h4 className={classes.cardTitle}>{film.name}</h4>
-                <h4 className={classes.cardTitle}>Genre: {film.genrefilms?.length>0?
-                film.genrefilms.map((g,i)=>{return <span key={i}>{g.genre?.name}  </span>}):<span>-</span>}</h4>
+                {film.sessions?<div><h1>Available times:</h1>{film.sessions.map((s,i)=>{return<Button 
+                style={{padding:"3px"}} color="danger" key={i}>{s?.time}</Button>})}</div>:""}
                 <p>{film.description?.substr(0, 150)}...</p>
-                <FilmCartButton film={film}/>
+                <p>{film.genrefilms?.length>0?
+                film.genrefilms.map((g,i)=>{return <span key={i}>#{g.genre?.name}</span>}):""}</p>
                 </CardBody>
+                <CardFooter>
+                <FilmCartButton film={film}/>
+                </CardFooter>
             </Card>
     );
   }
