@@ -4,15 +4,20 @@ import { AppContext } from "contexts/AppContext";
 import history from '../../history';
 
 export default function FilmCartButton({film}) {
-  
     const appContext = useContext(AppContext);
   const {
     cart,
     setCart,
   } = appContext;
     function press() {
-        if (!cart.includes(film))
-        setCart(cart => [...cart, film]);
+        var thisfilm={id:0, name:""};
+        thisfilm.id=film.id;
+        thisfilm.name=film.name;
+        if (cart.filter(f=>f.id===thisfilm.id).length<1)
+        {setCart(cart => [...cart, thisfilm]);
+          }
+          console.log(cart);
+        
     }
     
     function press2() {

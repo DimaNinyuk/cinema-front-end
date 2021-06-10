@@ -48,6 +48,8 @@ export default function TicketsBuyings({film}) {
   const [currentSession, setCurrentSession] = React.useState(null);
   const [paymentButton, setPaymentButton] = React.useState("");
   const [order, setOrder] = React.useState({session_id:null,seats:[],sum:0.00});
+  const [status, setStatus] = React.useState(false);
+  const [places, setPlaces] = React.useState([]);
   var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   var formatter = new Intl.DateTimeFormat('en', options);
   const { id } = useParams();
@@ -69,48 +71,62 @@ React.useEffect(() => {
           },
       );
 }, []);
-
   const handleDateChanges = (event, newValue) => {
    handleSessionChange(null,0,false); 
    setDateValue(newValue);
     setDate(dates[newValue]);
-  
   };
   const handleSessionChange = (event, newValue, handler) => {
     var state = handler===false?null:sessions.filter(s=>s.date===currentDate.date)[newValue];
     setCurrentSession(state);
     setTimeValue(newValue);
     setOrder({session_id:null,seats:[],sum:0});
+    if (handler===true){
+    axios
+    .get("http://localhost:8000/api/places-sessions/"+state.id)
+    .then(
+        (response) => {
+          setPlaces(response.data);
+        },
+    );
+      }
   };
-  function changeOrder(e){
+  function bookOrder(){
+    axios.defaults.withCredentials = true;
+    axios.get("http://localhost:8000/" + "sanctum/csrf-cookie").then(response => {
+      axios.post("http://localhost:8000/api/get-payment-string", order)
+      .then(
+          (response) => {
+            setPaymentButton(response.data);
+          },
+          )
+        }
+    //console.log(state);
+    );
+    setStatus(true);
+  }
+  function changeOrder(e,r,s){
     var state = Object.assign({}, order);
     state.session_id = Number(currentSession.id);
-    var value = Number(e.target.value)
+    var value = Number(s.id)
     var seat={};
     seat.id=value;
-    seat.price=currentSession.price;;
-
+    seat.price=currentSession.price;
+    seat.row=r;
+    seat.seat=s;
     if(state.seats===null)state.seats=[];
     if (state.seats.filter(s => s.id === seat.id).length === 0)
     {
          state.seats.push(seat);
-         state.sum=parseFloat(state.sum)+parseFloat(seat.price);
+         state.sum=parseFloat(seat.price).toFixed(2)*state.seats.length;
     }
     else
-    {state.seats.splice(state.seats.map(function (s) { return s.id; }).indexOf(seat.id), 1);
-    state.sum=(parseFloat(state.sum).toFixed(2)-parseFloat(seat.price).toFixed(2));}
-    axios
-      .get("http://localhost:8000/api/get-payment-string/"+state.sum)
-      .then(
-          (response) => {
-            setPaymentButton(response.data);
-            setOrder(state);
-          },
-      );
-    //console.log(state);
-
+    {
+    state.seats.splice(state.seats.map(function (s) { return s.id; }).indexOf(seat.id), 1);
+    state.sum=parseFloat(seat.price).toFixed(2)*state.seats.length;
+    }
+    setOrder(state);
   }
-
  const dateItemsRender = (
       dates.length>0? <div  className={classes.root}><Tabs
       orientation="vertical"
@@ -124,7 +140,6 @@ React.useEffect(() => {
     </div>
     :<div>No Data</div>
   );
-
   const timeItemsRender = (
     currentDate!==null? <div  className={classes.root}><Tabs
     orientation="vertical"
@@ -138,7 +153,6 @@ React.useEffect(() => {
   </div>
   :<div className={classes.noDisplay}></div>
 );
-
 const screenItemRender = (
   currentSession!==null? <div  className={classes.gridScreen} key={currentSession.id}> 
       <Button  fullWidth variant="contained" color="primary">
@@ -153,15 +167,13 @@ const screenItemRender = (
              display="flex"  
              alignItems="center"
              justifyContent="center"
-             padding="3px"
-           >
+             padding="3px">
               {r.seats.map((s,i)=>{;
              return <label key={i} className="ticket-btn">
-               {currentSession.buyings.length>0?currentSession.buyings.map(bs=>
-                bs?.buyingseats?.filter(b=>b.seat_id===s.id).length>0?
-                <input type="checkbox" checked disabled/>:
-                <input value={s.id} onChange={(e)=>changeOrder(e)} type="checkbox"/>):
-                <input value={s.id} onChange={(e)=>changeOrder(e)} type="checkbox"/>}
+               {places.length>0?places.filter(b=>b.seat_id===s.id).length>0?
+                <input value={s.number} type="checkbox" checked disabled/>:
+                <input value={s.number} onChange={(e)=>changeOrder(e,r,s)} type="checkbox"/>:
+                <input value={s.number} onChange={(e)=>changeOrder(e,r,s)} type="checkbox"/>}
              <span>{s.number}</span>
              </label>
             })}
@@ -172,19 +184,20 @@ const screenItemRender = (
 </div>
 :<div></div>
 );
-
 const totalRender = (currentSession?
 <div >
 <TextField fullWidth id="filled-basic" label="Film Name:" variant="filled" value={currentSession.film.name}/>
 <TextField fullWidth id="filled-basic" label="Date:" variant="filled" value={formatter.format(new Date(currentSession.date))}/>
 <TextField fullWidth id="filled-basic" label="Time:" variant="filled" value={currentSession.time}/>
-<TextField fullWidth id="filled-basic" label="Film's price:" variant="filled" value={currentSession.price+"₴"}/>
+<TextField fullWidth id="filled-basic" label="Session's price:" variant="filled" value={currentSession.price+"₴"}/>
 <TextField fullWidth id="filled-basic" label="Hall:" variant="filled" value={currentSession.hall?.name+" "+currentSession.hall?.type?.name}/>
-<TextField fullWidth id="filled-basic" label="Number of tickets:" variant="filled" value={order.seats.length}/>
+<TextField fullWidth id="filled-basic" label={"Info of tickets("+order.seats.length+"):"} variant="filled" value={
+  order.seats.map((s)=>{return "r"+s.row.number+"-s"+s.seat.number+" "})
+}/>
 <TextField fullWidth id="filled-basic" label="Total for payment:" variant="filled"value={order.sum.toFixed(2)+"₴"}/>
-{//<Button  fullWidth variant="contained" color="primary">Buy Now!</Button>
-}
-{order.sum>0?<div width="20px" dangerouslySetInnerHTML={{__html: paymentButton}}></div>:<div></div>}
+{status===false?<div><Button  fullWidth variant="contained"
+onClick={()=>{bookOrder()}} color="primary">Buy Now!</Button></div>
+:order.sum>0?<div width="20px" dangerouslySetInnerHTML={{__html: paymentButton}}></div>:<div></div>}
 </div>:<div></div>
 )
   if (dates.length>0) return (
@@ -201,7 +214,7 @@ const totalRender = (currentSession?
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
-        {screenItemRender}
+        {status===false?screenItemRender:""}
         </Grid>
         <Grid item xs={12} sm={2}>
         <Paper className={classes.paper}>

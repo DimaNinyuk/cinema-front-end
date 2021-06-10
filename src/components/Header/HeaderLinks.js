@@ -14,13 +14,18 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Search from "@material-ui/icons/Search";
 import CustomInput from "components/CustomInput/CustomInput.js";
 // @material-ui/icons
-import { ShoppingCart} from "@material-ui/icons";
+import { ShoppingCart, YoutubeSearchedFor} from "@material-ui/icons";
 
 // core components
 import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 import Button from "components/CustomButtons/Button.js";
 import styles from "assets/jss/material-kit-react/components/headerLinksStyle.js";
-
+import {
+  NOT_LOGGED_IN,
+  LOG_IN_FORM,
+  SIGN_UP_FORM,
+  LOGGED_IN,
+} from "../../constants/AuthStatus";
 const useStyles = makeStyles(styles);
 const thisStyles = theme => ({
   multilineColor:{
@@ -35,7 +40,9 @@ export default function HeaderLinks(props) {
   const [searchValue, setSearchValue] = React.useState("");
   const {
     cart,
-    setCart
+    setCart,
+    logout,
+    authStatus
   } = appContext;
 
   return (
@@ -72,36 +79,28 @@ export default function HeaderLinks(props) {
           buttonIcon={ShoppingCart}
           dropdownList=
           {
-            cart.length?cart.map(c=>
+            cart.length>0?cart.map(c=>
               {
                 return <div key={c.id}><div>{c.name}</div>
                 <p><Button href={"http://localhost:3000/film-detail/"+c.id} 
                 onClick={(e)=>{}}
                 fullWidth style={{height:10, padding:15}}>Book now</Button></p>
-                <p><Button onClick={()=>{console.log("i");
-                setCart(cart.filter(item => item.id !== c.id));}}
+                <p><Button onClick={()=>{setCart(cart.filter(item => item.id !== c.id));}}
                 fullWidth style={{height:10, padding:15}}>Remove from cart</Button></p></div>
               }):[<div>Cart is empty</div>]
           }
         />
       </ListItem>
-     
       <ListItem className={classes.listItem}>
         <Button
           href="http://localhost:3000/profile"
           color="transparent"
           className={classes.navLink}
         >
-
           <AccountCircleIcon className={classes.icons} /> 
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
-        {/*<Tooltip title="Delete">
-          <IconButton aria-label="Delete">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>*/}
         <Tooltip
           id="instagram-twitter"
           title="Follow us on youtube"
@@ -135,23 +134,22 @@ export default function HeaderLinks(props) {
           </Button>
         </Tooltip>
       </ListItem>
-      <ListItem className={classes.listItem}>
+      {authStatus===LOGGED_IN?<ListItem className={classes.listItem}>
         <Tooltip
-          id="instagram-tooltip"
-          title="Follow us on instagram"
+          id="logout-tooltip"
+          title="Log out"
           placement={window.innerWidth > 959 ? "top" : "left"}
           classes={{ tooltip: classes.tooltip }}
         >
           <Button
+          onClick={()=>{logout()}}
             color="transparent"
-            href="https://www.instagram.com/"
-            target="_blank"
             className={classes.navLink}
           >
-            <i className={classes.socialIcons + " fab fa-instagram"} />
+            <i className={classes.socialIcons + " fas fa-sign-out-alt"} />
           </Button>
         </Tooltip>
-      </ListItem>
+      </ListItem>:""}
     </List>
   );
 }

@@ -8,9 +8,7 @@ import {
   SIGN_UP_FORM,
   LOGGED_IN,
 } from "../constants/AuthStatus";
-
 const AppContext = React.createContext();
-
 const AppProvider = (props) => {
   let hostName = "http://localhost:8000/";
   if (process.env.NODE_ENV === "development") {
@@ -18,7 +16,6 @@ const AppProvider = (props) => {
   } else if (process.env.NODE_ENV === "production") {
     hostName = "https://we.com/";
   }
-
   const host=hostName;
   const [authStatus, setAuthStatus] = useState(NOT_LOGGED_IN);
   const [errorMessage, setErrorMessage] = useState("");
@@ -27,31 +24,26 @@ const AppProvider = (props) => {
   const [userNameInput, setUserNameInput] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [userRole, setUserRole] = useState("");
   const [cart, setCart] = useLocalStorage("cart", []);
-
   function changeAuthStatusLogin() {
     setAuthStatus(LOG_IN_FORM);
   }
-
   function changeAuthStatusSignup() {
     setAuthStatus(SIGN_UP_FORM);
   }
-
   function handleUserNameInput(changeEvent) {
     let updatedUserName = changeEvent.target.value;
     setUserNameInput(updatedUserName);
   }
-
   function handleUserEmail(changeEvent) {
     let updatedUserEmail = changeEvent.target.value;
     setUserEmail(updatedUserEmail);
   }
-
   function handleUserPassword(changeEvent) {
     let updatedUserPassword = changeEvent.target.value;
     setUserPassword(updatedUserPassword);
   }
-
   const signup = () => {
     axios.defaults.withCredentials = true;
     // CSRF COOKIE
@@ -91,11 +83,9 @@ const AppProvider = (props) => {
       }
     );
   };
-
   const login = () => {
     axios.defaults.withCredentials = true;
-    // CSRF COOKIE
-  
+    // CSRF COOKIE  
     axios.get(hostName + "sanctum/csrf-cookie").then(
       (response) => {
         // LOGIN
@@ -136,6 +126,7 @@ const AppProvider = (props) => {
         // LOGIN
                   setUserId(response.data.id);
                   setUserName(response.data.name);
+                  setUserRole(response.data.role_id);
                   setErrorMessage("");
                   setAuthStatus(LOGGED_IN);
                 },
@@ -157,7 +148,6 @@ const AppProvider = (props) => {
     setAuthStatus(NOT_LOGGED_IN);
     history.push("/auth");
   }
-
   function out(){
     axios.defaults.withCredentials = true;
     return axios.get(hostName + "api/logout");
@@ -176,6 +166,7 @@ const AppProvider = (props) => {
         userNameInput,
         userEmail,
         userPassword,
+        userRole,
         handleUserNameInput,
         handleUserEmail,
         handleUserPassword,

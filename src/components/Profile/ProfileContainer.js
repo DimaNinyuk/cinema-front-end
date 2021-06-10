@@ -22,7 +22,9 @@ const ProfileContainer = () => {
             <ProfileMain />
           </div>
           <div className={showLoggedIn}>
-            <AuthLogout />
+            {
+            //<AuthLogout />
+            }
           </div>
     </div>
   );
