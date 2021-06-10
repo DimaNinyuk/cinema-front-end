@@ -42,9 +42,10 @@ export default function HeaderLinks(props) {
     cart,
     setCart,
     logout,
-    authStatus
+    authStatus,
+    getprofile
   } = appContext;
-
+  getprofile();
   return (
     <List className={classes.list}>
     <ListItem className={classes.listItem}><div style={{marginTop:-23}}><CustomInput

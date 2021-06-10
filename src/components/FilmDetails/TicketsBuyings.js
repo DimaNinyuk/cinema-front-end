@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import axios from "axios";
 import { useParams} from "react-router-dom";
 import PropTypes from 'prop-types';
@@ -10,6 +10,13 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { AppContext } from "contexts/AppContext";
+import {
+  NOT_LOGGED_IN,
+  LOG_IN_FORM,
+  SIGN_UP_FORM,
+  LOGGED_IN,
+} from "../../constants/AuthStatus";
 import "css/tickets.css";
 const useStyles = makeStyles((theme) => ({
     screen:{
@@ -47,13 +54,17 @@ export default function TicketsBuyings({film}) {
   const [sessions, setSessions] = React.useState([]);
   const [currentSession, setCurrentSession] = React.useState(null);
   const [paymentButton, setPaymentButton] = React.useState("");
-  const [order, setOrder] = React.useState({session_id:null,seats:[],sum:0.00});
+  const [order, setOrder] = React.useState({session_id:null,seats:[],sum:0.00, user_id:0});
   const [status, setStatus] = React.useState(false);
   const [places, setPlaces] = React.useState([]);
   var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   var formatter = new Intl.DateTimeFormat('en', options);
   const { id } = useParams();
-
+  const appContext = useContext(AppContext);
+  const {
+    authStatus,
+    userId,
+  } = appContext;
 React.useEffect(() => {
   setCureentFilm(film);
   axios
@@ -80,7 +91,7 @@ React.useEffect(() => {
     var state = handler===false?null:sessions.filter(s=>s.date===currentDate.date)[newValue];
     setCurrentSession(state);
     setTimeValue(newValue);
-    setOrder({session_id:null,seats:[],sum:0});
+    setOrder({session_id:null,seats:[],sum:0, user_id:userId});
     if (handler===true){
     axios
     .get("http://localhost:8000/api/places-sessions/"+state.id)
