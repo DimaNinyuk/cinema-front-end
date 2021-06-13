@@ -64,8 +64,11 @@ export default function TicketsBuyings({film}) {
   const {
     authStatus,
     userId,
+    getprofile,
   } = appContext;
 React.useEffect(() => {
+  getprofile();
+  console.log(authStatus);
   setCureentFilm(film);
   axios
       .get("http://localhost:8000/api/film-dates/"+id)

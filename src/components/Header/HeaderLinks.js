@@ -45,7 +45,7 @@ export default function HeaderLinks(props) {
     authStatus,
     getprofile
   } = appContext;
-  getprofile();
+  //getprofile();
   return (
     <List className={classes.list}>
     <ListItem className={classes.listItem}><div style={{marginTop:-23}}><CustomInput
