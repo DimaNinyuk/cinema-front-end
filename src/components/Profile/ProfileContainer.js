@@ -9,20 +9,19 @@ import AuthLogout from "../Auth/AuthLogout";
 import ProfileMain from "./ProfileMain";
 import AuthNotLoggedIn from "../Auth/AuthNotLoggedIn";
 import { AppContext } from "contexts/AppContext";
-
 const ProfileContainer = () => {
   const appContext = useContext(AppContext);
   const { authStatus, errorMessage } = appContext;
   const showLoggedIn = authStatus === LOGGED_IN ? "" : "hidden";
-
- 
   return (
     <div>
       <div className={showLoggedIn}>
             <ProfileMain />
           </div>
           <div className={showLoggedIn}>
-            <AuthLogout />
+            {
+            //<AuthLogout />
+            }
           </div>
     </div>
   );

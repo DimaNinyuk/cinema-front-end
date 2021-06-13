@@ -1,9 +1,9 @@
 import React from "react";
+import axios from "axios";
 import { AppProvider } from "contexts/AppContext"
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // react components for routing our app without refresh
-import { Link } from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
@@ -17,15 +17,25 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Button from "components/CustomButtons/Button.js";
 import Parallax from "components/Parallax/Parallax.js";
-import AllFilms from "components/Films/AllFilms.js";
-import FilmFilters from "components/Films/FilmFilters.js";
-import FilmTopNews from "components/Films/FilmTopNews";
+import Row from "components/Admin/User/Row.js";
+import RowPlay from "components/Admin/User/RowPlay.js";
 import styles from "assets/jss/material-kit-react/views/components.js";
-
+import { useParams} from "react-router-dom";
 const useStyles = makeStyles(styles);
-export default function Homepage(props) {
+export default function OrderDetail(props) {
   const classes = useStyles();
   const { ...rest } = props;
+  const [tickets, setTickets] = React.useState(null);
+  const { id } = useParams();
+  React.useEffect(() => {
+    axios
+        .get("http://localhost:8000/api/buying-detail/"+id)
+        .then(
+            (response) => {
+              setTickets(response.data);
+            },
+        );
+  }, []);
   return (
     <div>
       <AppProvider>
@@ -66,19 +76,12 @@ export default function Homepage(props) {
         </div>
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
-         <FilmTopNews />
     </div>
       <div className={classNames(classes.main, classes.mainRaised)} style={{marginTop:"50px"}}>
         <GridContainer >
          <GridItem>
-            <AllFilms/>
-        </GridItem>
-    </GridContainer>
-    </div>
-    <div className={classNames(classes.mainRaised)} style={{marginTop:"50px"}}>
-        <GridContainer >
-         <GridItem>
-            <FilmFilters/>
+           {console.log(tickets)}
+          {tickets?<RowPlay buying={tickets}></RowPlay>:""}
         </GridItem>
     </GridContainer>
     </div>

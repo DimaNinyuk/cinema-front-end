@@ -4,7 +4,7 @@ import history from './history'
 import { Router, Route, Switch} from "react-router-dom";
 
 import "assets/scss/material-kit-react.scss?v=1.9.0";
-
+  
 // pages for this product
 import Components from "views/Components/Components.js";
 import LandingPage from "views/LandingPage/LandingPage.js";
@@ -17,6 +17,7 @@ import AdminProfile from "views/AdminProfile/AdminProfile.js"
 import Homepage from "views/Homepage/Homepage.js"
 import FilmDetail from "views/FilmDetail/FilmDetail.js"
 import FilmSearched from "views/FilmSearched/FilmsSearched.js"
+import OrderDetail from "views/OrderDetails/OrderDetail.js"
 
 ReactDOM.render(
   <Router history={history}>
@@ -29,6 +30,7 @@ ReactDOM.render(
       <Route path="/auth-google" component={LoginGoogle} />
       <Route path="/profile" component={Profile} />
       <Route path="/film-detail/:id" component={FilmDetail} />
+      <Route path="/order-detail/:id" component={OrderDetail} />
       <Route path="/film-search" component={FilmSearched} />
       <Route path="/admin-profile" component={AdminProfile} />
       <Route path="/" component={Homepage} />
