@@ -76,16 +76,17 @@ export default function Sessions() {
             (response) => {
                 axios.put("http://localhost:8000/api/admin-sessions/" + session.id, session).then(
                     (response) => {
-                        var array = allsessions.filter(function (item) {
-                            return item.id !== session.id
-                        })
-                        setallsessions(allsessions => [...array, response.data]);
-                        setValue(allsessions.length-1);
-                        getSessionDetail(session);
+                        axios
+                    .get("http://localhost:8000/api/admin-sessions")
+                    .then(
+                        (response) => {
+                            setallsessions(response.data);
+                            setcurrentSession(response.data[0]);
+                        },
+                    );
                     },
                 )
             })
-
     }
     function handleDeleteSession(session) {
         axios.defaults.withCredentials = true;
@@ -132,7 +133,7 @@ export default function Sessions() {
                                 //вывод списка фильмов
                                 allsessions.map((session, i) => {
                                     return (
-                                        session.film === null?<Tab key={i} label={session.id}></Tab>:<Tab key={i} label={"FIlm"}></Tab>
+                                        session.film === null?<Tab key={i} label={session.id}></Tab>:<Tab key={i} label={session.film.name +" "+ session.date +" "+ session.time}></Tab>
                                     );
 
                                 }
