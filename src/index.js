@@ -23,7 +23,6 @@ ReactDOM.render(
   <Router history={history}>
     <Switch>
       <Route path="/landing-page" component={LandingPage} />
-      <Route path="/user-profile" component={UserProfile} />
       <Route path="/login-page" component={LoginPage} />
       <Route path="/components" component={Components} />
       <Route path="/auth" component={Auth} />
@@ -32,7 +31,6 @@ ReactDOM.render(
       <Route path="/film-detail/:id" component={FilmDetail} />
       <Route path="/order-detail/:id" component={OrderDetail} />
       <Route path="/film-search" component={FilmSearched} />
-      <Route path="/admin-profile" component={AdminProfile} />
       <Route path="/" component={Homepage} />
     </Switch>
   </Router>,
