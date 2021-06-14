@@ -35,8 +35,17 @@ export default function Statistics() {
                                 item.value = session.buyings.length;
                                 state[i] = item;
                             })
-                            console.log(state);
-                            setData(state);
+                            var result = [];
+                            state.reduce(function (res, value) {
+                                if (!res[value.argument]) {
+                                    res[value.argument] = { argument: value.argument, value: 0 };
+                                    result.push(res[value.argument])
+                                }
+                                res[value.argument].value += value.value;
+                                return res;
+                            }, {});
+                            console.log(result.sort((a, b) => a.argument > b.argument ? 1 : -1));
+                            setData(result);
                         },
                     );
             })

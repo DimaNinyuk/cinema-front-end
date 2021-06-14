@@ -81,7 +81,8 @@ export default function Sessions() {
                     .then(
                         (response) => {
                             setallsessions(response.data);
-                            setcurrentSession(response.data[0]);
+                            setcurrentSession(response.data.length);
+                            getSessionDetail(currentSession);
                         },
                     );
                     },
@@ -111,6 +112,7 @@ export default function Sessions() {
                 axios.post("http://localhost:8000/api/admin-sessions", session).then(
                     (response) => {
                         setallsessions(allsessions => [...allsessions, response.data]);
+                        setcurrentSession(response.data[response.data.length]);
                         getSessionDetail(response.data);
                         setValue(allsessions.length);
                     },
@@ -131,9 +133,9 @@ export default function Sessions() {
                         >
                             {
                                 //вывод списка фильмов
-                                allsessions.map((session, i) => {
+                                allsessions?.map((session, i) => {
                                     return (
-                                        session.film === null?<Tab key={i} label={session.id}></Tab>:<Tab key={i} label={session.film.name +" "+ session.date +" "+ session.time}></Tab>
+                                        session.film?<Tab key={i} label={session.film.name +" "+ session.date +" "+ session.time}></Tab>:<Tab key={i} label={session.id}></Tab>
                                     );
 
                                 }

@@ -52,6 +52,7 @@ export default function Row({ film,onDelete }) {
                         {film.id}
                     </TableCell>
                     <TableCell align="right">{film.release_date}</TableCell>
+                    <TableCell align="right">{film.reviews.length}</TableCell>
                     <TableCell align="right">{film.name}</TableCell>
                 </TableRow>
                 <TableRow>

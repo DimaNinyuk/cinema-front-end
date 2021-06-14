@@ -56,6 +56,7 @@ export default function Reviews() {
             <TableCell />
             <TableCell>#</TableCell>
             <TableCell align="right">Release date</TableCell>
+            <TableCell align="right">Count reviews</TableCell>
             <TableCell align="right">Film</TableCell>
           </TableRow>
         </TableHead>

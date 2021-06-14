@@ -32,6 +32,7 @@ import Sessions from 'components/Admin/Sessions/Sessions.js';
 import Buyings from 'components/Admin/Buyings/Buyings.js';
 import Reviews from "components/Admin/Reviews/Reviews";
 import Statistics from "components/Admin/Statistics/Statistics";
+import HeaderProfile from "views/ProfilePage/HeaderProfile.js";
 
 const useStyles = makeStyles(styles);
 
@@ -81,7 +82,7 @@ export default function ProfilePage(props) {
                                             <img src={profile} alt="..." className={imageClasses} />
                                         </div>
                                         <div className={classes.name}>
-                                            <h3 className={classes.title}>Ivanov I. I.</h3>
+                                            <h3 className={classes.title}><HeaderProfile></HeaderProfile> </h3>
                                             <h6>ADMIN</h6>
                                             
                                         </div>
