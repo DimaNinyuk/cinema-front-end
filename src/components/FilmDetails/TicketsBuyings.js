@@ -64,11 +64,11 @@ export default function TicketsBuyings({film}) {
   const {
     authStatus,
     userId,
-    getprofile,
+    getprofileforbuying
   } = appContext;
 React.useEffect(() => {
-  getprofile();
-  console.log(authStatus);
+  getprofileforbuying();
+ // console.log(authStatus);
   setCureentFilm(film);
   axios
       .get("http://localhost:8000/api/film-dates/"+id)
@@ -102,7 +102,7 @@ React.useEffect(() => {
         (response) => {
           setPlaces(response.data);
         },
-    );
+      );
       }
   };
   function bookOrder(){
@@ -168,7 +168,7 @@ React.useEffect(() => {
   :<div className={classes.noDisplay}></div>
 );
 const screenItemRender = (
-  currentSession!==null? <div  className={classes.gridScreen} key={currentSession.id}> 
+  currentSession!==null?<div  className={classes.gridScreen}> 
       <Button  fullWidth variant="contained" color="primary">
         SCREEN
       </Button>
@@ -186,8 +186,8 @@ const screenItemRender = (
              return <label key={i} className="ticket-btn">
                {places.length>0?places.filter(b=>b.seat_id===s.id).length>0?
                 <input value={s.number} type="checkbox" checked disabled/>:
-                <input value={s.number} onChange={(e)=>changeOrder(e,r,s)} type="checkbox"/>:
-                <input value={s.number} onChange={(e)=>changeOrder(e,r,s)} type="checkbox"/>}
+                <input value={s.number} onClick={(e)=>changeOrder(e,r,s)} type="checkbox"/>:
+                <input value={s.number} onClick={(e)=>changeOrder(e,r,s)} type="checkbox"/>}
              <span>{s.number}</span>
              </label>
             })}

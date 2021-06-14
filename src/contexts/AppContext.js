@@ -85,6 +85,7 @@ const AppProvider = (props) => {
     );
   };
   const login = () => {
+    setAuthStatus(LOGGED_IN);
     axios.defaults.withCredentials = true;
     // CSRF COOKIE  
     axios.get(hostName + "sanctum/csrf-cookie").then(
@@ -97,7 +98,8 @@ const AppProvider = (props) => {
           })
           .then(
             (response) => {
-              // GET USER
+              
+              console.log("li");
               history.push("/profile");
             },
             // LOGIN ERROR
@@ -139,6 +141,28 @@ const AppProvider = (props) => {
     );
               });
   }
+
+  function getprofileforbuying() {
+    axios.defaults.withCredentials = true;
+    axios.get('http://localhost:8000/sanctum/csrf-cookie').then(response => {
+        // Login...
+    axios.get("http://localhost:8000/api/user").then(
+      (response) => {
+        // LOGIN
+                  setUserId(response.data.id);
+                  setUserName(response.data.name);
+                  setUserRole(response.data.role_id);
+                  setErrorMessage("");
+                  setAuthStatus(LOGGED_IN);
+                },
+                // GET USER ERROR
+                (error) => {
+                 console.log(error);
+                 return false;
+                }
+    );
+              });
+  }
   function logout() {
     out();
     setUserId(0);
@@ -175,6 +199,7 @@ const AppProvider = (props) => {
         login,
         logout,
         getprofile,
+        getprofileforbuying,
         errorMessage,
         cart,
         setCart,

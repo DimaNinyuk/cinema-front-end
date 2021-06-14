@@ -39,7 +39,7 @@ export default function Information ({film}) {
             <TableRow>
               <TableCell style={{backgroundColor:"black", color:"white"}}align="left">Duration:</TableCell>
               <TableCell style={{backgroundColor:"#D8D8D8", color:"black"}}component="th" scope="row">
-                {currentFilm.description}
+                {currentFilm.duration}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -50,7 +50,7 @@ export default function Information ({film}) {
             </TableRow>
             <TableRow>
               <TableCell style={{backgroundColor:"black", color:"white"}}align="left">Genres:</TableCell>
-              <TableCell style={{backgroundColor:"#D8D8D8", color:"black"}}component="th" scope="row">
+              <TableCell style={{backgroundColor:"#D8D8D8", color:"white"}}component="th" scope="row">
                 {currentFilm.genrefilms?(currentFilm.genrefilms.map((genre,i)=>{
                     return genre.genre.name+((i+1)<currentFilm.genrefilms.length?", ":".");
                 })
