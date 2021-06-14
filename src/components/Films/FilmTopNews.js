@@ -70,7 +70,7 @@ export default function FilmTopNews(){
               className="slick-image"
             />
             <div className="slick-caption">
-              <a href={"http://localhost:3000/film-detail/"+f.id}><h6>sssssss
+              <a href={"http://localhost:3000/film-detail/"+f.id}><h6>
                {f.name+" - "+f.release_date}
               </h6>
               </a>
